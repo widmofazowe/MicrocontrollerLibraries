@@ -8,7 +8,6 @@
 #ifndef _H_COMPLEX_
 #define _H_COMPLEX_
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
 
 /* Exported types ------------------------------------------------------------*/
 typedef float CPXTYPE; //should be float or double
