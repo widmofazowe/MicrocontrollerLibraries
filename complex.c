@@ -112,12 +112,10 @@ inline CPXTYPE cpx_abs(COMPLEX* x) {
 * Return         : Argument of a complex number in radians (arc tan(x.im/x.re) + [pi when x.re < 0] or - [pi when x.re < 0 and x.im < 0]).
 *******************************************************************************/
 CPXTYPE cpx_angle(COMPLEX* x) {
-	double tmp = atan(x->im/x->re);
-	if(x->re < CPX_ZERO)
-		if(x->im > CPX_ZERO)
-			tmp += M_PI;
-		else
-			tmp -= M_PI;
+	CPXTYPE tmp = atan(x->im/x->re);
+	if(x->re < CPX_ZERO) {
+		tmp = (x->im > CPX_ZERO) ? tmp + M_PI : tmp - M_PI;
+	}
 	return (CPXTYPE) tmp;
 }
 
