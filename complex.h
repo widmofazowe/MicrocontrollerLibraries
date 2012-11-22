@@ -1,5 +1,5 @@
 /*
- * complex
+ * complex.h
  *
  *  Created on: Oct 25, 2012
  *      Author: widmo
