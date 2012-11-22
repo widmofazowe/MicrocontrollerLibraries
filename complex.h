@@ -5,9 +5,10 @@
  *      Author: widmo
  */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef _H_COMPLEX_
-#define _H_COMPLEX_
+#ifndef _H_COMPLEX
+#define _H_COMPLEX
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f10x.h"
 
 /* Exported types ------------------------------------------------------------*/
 typedef float CPXTYPE; //should be float or double
@@ -44,15 +45,23 @@ COMPLEX cpx_add(COMPLEX* a, COMPLEX* b);
 COMPLEX cpx_sub(COMPLEX* a, COMPLEX* b);
 COMPLEX cpx_mul(COMPLEX* a, COMPLEX* b);
 COMPLEX cpx_div(COMPLEX* a, COMPLEX* b);
-inline CPXTYPE cpx_abs(COMPLEX* x);
+__inline CPXTYPE cpx_abs(COMPLEX* x);
 CPXTYPE cpx_angle(COMPLEX* x);
 COMPLEX cpx_cconjugate(COMPLEX* x);
-inline void cpx_conjugate(COMPLEX* x);
-inline CPXTYPE cpx_re(COMPLEX* x);
-inline CPXTYPE cpx_im(COMPLEX* x);
+__inline void cpx_conjugate(COMPLEX* x);
+__inline CPXTYPE cpx_re(COMPLEX* x);
+__inline CPXTYPE cpx_im(COMPLEX* x);
 COMPLEXtrig cpx_c2t(COMPLEX* x);
 COMPLEX cpx_t2c(COMPLEXtrig* x);
-inline CPXTYPE rad2deg(CPXTYPE x);
-inline CPXTYPE deg2rad(CPXTYPE x);
+__inline CPXTYPE rad2deg(CPXTYPE x);
+__inline CPXTYPE deg2rad(CPXTYPE x);
+COMPLEX cpx_zero();
+COMPLEX cpx_e(CPXTYPE mag, CPXTYPE angle);
+void cpx_add_re(COMPLEX* a, CPXTYPE re);
+void cpx_add_im(COMPLEX* a, CPXTYPE im);
+void cpx_sub_re(COMPLEX* a, CPXTYPE re);
+void cpx_sub_im(COMPLEX* a, CPXTYPE im);
+void cpx_mul_k(COMPLEX* a, CPXTYPE k);
+void cpx_div_k(COMPLEX* a, CPXTYPE k);
 
-#endif /* COMPLEX_ */
+#endif /* _H_COMPLEX */

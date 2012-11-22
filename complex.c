@@ -100,8 +100,8 @@ COMPLEX cpx_div(COMPLEX* a, COMPLEX* b) {
 * Output         : None.
 * Return         : Magnitude of a complex number (sqrt(x.re^2 + x.im^2)).
 *******************************************************************************/
-inline CPXTYPE cpx_abs(COMPLEX* x) {
-	return sqrt(x->re*x->re + x->im*x->im);
+__inline CPXTYPE cpx_abs(COMPLEX* x) {
+	return (CPXTYPE) sqrt(x->re*x->re + x->im*x->im);
 }
 
 /*******************************************************************************
@@ -112,11 +112,14 @@ inline CPXTYPE cpx_abs(COMPLEX* x) {
 * Return         : Argument of a complex number in radians (arc tan(x.im/x.re) + [pi when x.re < 0] or - [pi when x.re < 0 and x.im < 0]).
 *******************************************************************************/
 CPXTYPE cpx_angle(COMPLEX* x) {
-	CPXTYPE tmp = atan(x->im/x->re);
+	CPXTYPE tmp;
+	if(x->im == CPX_ZERO)
+		return M_PI/2;
+	tmp = (CPXTYPE) atan(x->im/x->re)
 	if(x->re < CPX_ZERO) {
 		tmp = (x->im > CPX_ZERO) ? tmp + M_PI : tmp - M_PI;
 	}
-	return (CPXTYPE) tmp;
+	return tmp;
 }
 
 /*******************************************************************************
@@ -140,7 +143,7 @@ COMPLEX cpx_cconjugate(COMPLEX* x) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-inline void cpx_conjugate(COMPLEX* x) {
+__inline void cpx_conjugate(COMPLEX* x) {
 	x->im = -x->im;
 }
 
@@ -151,7 +154,7 @@ inline void cpx_conjugate(COMPLEX* x) {
 * Output         : None.
 * Return         : Real part of a complex number (x.re).
 *******************************************************************************/
-inline CPXTYPE cpx_re(COMPLEX* x) {
+__inline CPXTYPE cpx_re(COMPLEX* x) {
 	return x->re;
 }
 
@@ -162,7 +165,7 @@ inline CPXTYPE cpx_re(COMPLEX* x) {
 * Output         : None.
 * Return         : Imaginary part of a complex number (x.im).
 *******************************************************************************/
-inline CPXTYPE cpx_im(COMPLEX* x) {
+__inline CPXTYPE cpx_im(COMPLEX* x) {
 	return x->im;
 }
 
@@ -189,8 +192,8 @@ COMPLEXtrig cpx_c2t(COMPLEX* x) {
 *******************************************************************************/
 COMPLEX cpx_t2c(COMPLEXtrig* x) {
 	COMPLEX tmp;
-	tmp.re = cos(x->angle)/x->magnitude;
-	tmp.im = sin(x->angle)/x->magnitude;
+	tmp.re = (CPXTYPE) cos(x->angle)/x->magnitude;
+	tmp.im = (CPXTYPE) sin(x->angle)/x->magnitude;
 	return tmp;
 }
 
@@ -201,7 +204,7 @@ COMPLEX cpx_t2c(COMPLEXtrig* x) {
 * Output         : None.
 * Return         : Value in degrees.
 *******************************************************************************/
-inline CPXTYPE rad2deg(CPXTYPE x) {
+__inline CPXTYPE rad2deg(CPXTYPE x) {
 	return x*CPX_180OVERPI;
 }
 
@@ -212,7 +215,108 @@ inline CPXTYPE rad2deg(CPXTYPE x) {
 * Output         : None.
 * Return         : Value in radians.
 *******************************************************************************/
-inline CPXTYPE deg2rad(CPXTYPE x) {
+__inline CPXTYPE deg2rad(CPXTYPE x) {
 	return x*CPX_PIOVER180;
 }
 
+/*******************************************************************************
+* Function Name  : cpx_zero
+* Description    : Creates complex number with real and imaginary part equal to zero.
+* Input          : None.
+* Output         : None.
+* Return         : Return complex number of 0+j*0.
+*******************************************************************************/
+COMPLEX cpx_zero() {
+	COMPLEX tmp;
+	tmp.re = tmp.im = CPX_ZERO;
+	return tmp;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_e
+* Description    : Compute complex number (a+jb) from trigonometric form mag*e^(j*angle)
+* Input          : mag: Magnitude of complex number
+* 				   angle: Angle of complex number
+* Output         : None.
+* Return         : Return complex number mag*e^(j*angle).
+*******************************************************************************/
+COMPLEX cpx_e(CPXTYPE mag, CPXTYPE angle) {
+	COMPLEX tmp;
+	tmp.re = (CPXTYPE) mag*cos(angle);
+	tmp.re = (CPXTYPE) mag*sin(angle);
+	return tmp;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_add_re
+* Description    : Add a real part to the complex number.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   re: added value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_add_re(COMPLEX* a, CPXTYPE re) {
+	a->re += re;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_add_im
+* Description    : Add a imaginary part to the complex number.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   re: added value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_add_im(COMPLEX* a, CPXTYPE im) {
+	a->im += im;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_sub_re
+* Description    : Substract a real part to the complex number.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   re: substraction value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_sub_re(COMPLEX* a, CPXTYPE re) {
+	a->re -= re;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_sub_im
+* Description    : Substract a imaginary part to the complex number.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   re: substraction value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_sub_im(COMPLEX* a, CPXTYPE im) {
+	a->im -= im;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_mul_k
+* Description    : Multiply a complex number by a constant.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   k: multiplication value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_mul_k(COMPLEX* a, CPXTYPE k) {
+	a->re *= k;
+	a->im *= k;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_div_k
+* Description    : Divide a complex number by a constant.
+* Input          : a: a pointer to the COMPLEX varible
+* 				   k: division value
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_div_k(COMPLEX* a, CPXTYPE k) {
+	a->re /= k;
+	a->im /= k;
+}
