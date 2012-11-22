@@ -30,11 +30,11 @@ typedef struct {
 #define CPX_MODE CPX_FLOAT_MODE
 //define CPX_MODE CPX_DOUBLE_MODE
 #if CPX_MODE == CPX_FLOAT_MODE
-	#define CPX_ZERO 0.0f;
+	#define CPX_ZERO 0.0f
 	#define CPX_180OVERPI 57.29578f
 	#define CPX_PIOVER180 0.0174533f
 #else
-	#define CPX_ZERO = 0.0;
+	#define CPX_ZERO = 0.0
 	#define CPX_180OVERPI 57.295779513082
 	#define CPX_PIOVER180 0.01745329252
 #endif
@@ -48,11 +48,11 @@ COMPLEX cpx_div(COMPLEX* a, COMPLEX* b);
 inline CPXTYPE cpx_abs(COMPLEX* x);
 CPXTYPE cpx_angle(COMPLEX* x);
 COMPLEX cpx_cconjugate(COMPLEX* x);
-inline COMPLEX cpx_conjugate(COMPLEX* x);
+inline void cpx_conjugate(COMPLEX* x);
 inline CPXTYPE cpx_re(COMPLEX* x);
 inline CPXTYPE cpx_im(COMPLEX* x);
-COMPLEX cpx_c2t(COMPLEX* x);
-COMPLEX cpx_t2c(COMPLEX* x);
+COMPLEXtrig cpx_c2t(COMPLEX* x);
+COMPLEX cpx_t2c(COMPLEXtrig* x);
 inline CPXTYPE rad2deg(CPXTYPE x);
 inline CPXTYPE deg2rad(CPXTYPE x);
 
