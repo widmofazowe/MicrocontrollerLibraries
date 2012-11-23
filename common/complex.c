@@ -13,6 +13,7 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -34,15 +35,16 @@ COMPLEX cpx(CPXTYPE a, CPXTYPE b) {
 /*******************************************************************************
 * Function Name  : cpx_add
 * Description    : Add a complex numbers.
-* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
+* Input          : a:a pointer to the first COMPLEX varible
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : None.
+* Return         : Sum of two complex numbers.
 *******************************************************************************/
-void cpx_add(COMPLEX* a, COMPLEX* b) {
-	a->re += b->re;
-	a->im += b->im;
-
+COMPLEX cpx_add(COMPLEX* a, COMPLEX* b) {
+	COMPLEX tmp;
+	tmp.re = a->re + b->re;
+	tmp.im = a->im + b->im;
+	return tmp;
 }
 
 /*******************************************************************************
@@ -51,13 +53,13 @@ void cpx_add(COMPLEX* a, COMPLEX* b) {
 * Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : None.
+* Return         : Substraction of two complex numbers.
 *******************************************************************************/
-void cpx_sub(COMPLEX* a, COMPLEX* b) {
-
-	a->re -= b->re;
-	a->im -= b->im;
-
+COMPLEX cpx_sub(COMPLEX* a, COMPLEX* b) {
+	COMPLEX tmp;
+	tmp.re = a->re - b->re;
+	tmp.im = a->im - b->im;
+	return tmp;
 }
 
 /*******************************************************************************
@@ -66,11 +68,13 @@ void cpx_sub(COMPLEX* a, COMPLEX* b) {
 * Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : None.
+* Return         : Multiplication of two complex numbers..
 *******************************************************************************/
-void cpx_mul(COMPLEX* a, COMPLEX* b) {
-	a->re = a->re * b->re - a->im * b->im;
-	a->im = a->re * b->im + b->re * a->im;
+COMPLEX cpx_mul(COMPLEX* a, COMPLEX* b) {
+	COMPLEX tmp;
+	tmp.re = a->re * b->re - a->im * b->im;
+	tmp.im = a->re * b->im + b->re * a->im;
+	return tmp;
 }
 
 /*******************************************************************************
@@ -79,13 +83,14 @@ void cpx_mul(COMPLEX* a, COMPLEX* b) {
 * Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : None.
+* Return         : Division of two complex numbers..
 *******************************************************************************/
-void cpx_div(COMPLEX* a, COMPLEX* b) {
+COMPLEX cpx_div(COMPLEX* a, COMPLEX* b) {
+	COMPLEX tmp;
 	CPXTYPE tm = b->re * b->re + b->im * b->im;
-	b->im = -b->im;
-	a->re = (a->re * b->re - a->im * b->im)/tm;
-	a->im = (a->re * b->im + b->re * a->im)/tm;
+	tmp.re = (a->re * b->re + a->im * b->im)/tm;
+	tmp.im = (a->im * b->re - a->re * b->im)/tm;
+	return tmp;
 }
 
 /*******************************************************************************
@@ -108,7 +113,7 @@ __inline CPXTYPE cpx_abs(COMPLEX* x) {
 *******************************************************************************/
 CPXTYPE cpx_angle(COMPLEX* x) {
 	CPXTYPE tmp;
-	if(x->real == CPX_ZERO)
+	if(x->im == CPX_ZERO)
 		return M_PI_2;
 	tmp = (CPXTYPE) atanf(x->im/x->re);
 	if(x->re < CPX_ZERO) {
@@ -238,7 +243,7 @@ COMPLEX cpx_zero() {
 COMPLEX cpx_e(CPXTYPE mag, CPXTYPE angle) {
 	COMPLEX tmp;
 	tmp.re = (CPXTYPE) mag*cosf(angle);
-	tmp.re = (CPXTYPE) mag*sinf(angle);
+	tmp.im = (CPXTYPE) mag*sinf(angle);
 	return tmp;
 }
 
@@ -314,4 +319,60 @@ void cpx_mul_k(COMPLEX* a, CPXTYPE k) {
 void cpx_div_k(COMPLEX* a, CPXTYPE k) {
 	a->re /= k;
 	a->im /= k;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_add
+* Description    : Add a complex numbers.
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
+* 				   b:a pointer to the second COMPLEX varible
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_addr(COMPLEX* a, COMPLEX* b) {
+	a->re += b->re;
+	a->im += b->im;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_sub
+* Description    : Substract a complex numbers.
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
+* 				   b:a pointer to the second COMPLEX varible
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_subr(COMPLEX* a, COMPLEX* b) {
+
+	a->re -= b->re;
+	a->im -= b->im;
+
+}
+
+/*******************************************************************************
+* Function Name  : cpx_mul
+* Description    : Multiply a complex numbers.
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
+* 				   b:a pointer to the second COMPLEX varible
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_mulr(COMPLEX* a, COMPLEX* b) {
+	CPXTYPE x = a->re;
+	a->re = x * b->re - a->im * b->im;
+	a->im = x * b->im + b->re * a->im;
+}
+
+/*******************************************************************************
+* Function Name  : cpx_div
+* Description    : Divide a complex numbers.
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
+* 				   b:a pointer to the second COMPLEX varible
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void cpx_divr(COMPLEX* a, COMPLEX* b) {
+	CPXTYPE tm = b->re * b->re + b->im * b->im, x = a->re;
+	a->re = (x * b->re + a->im * b->im)/tm;
+	a->im = (a->im * b->re - x * b->im)/tm;
 }

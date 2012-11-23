@@ -12,8 +12,8 @@
 #define _H_DFT
 
 /* Includes ------------------------------------------------------------------*/
-#include "../complex.h"
-#include <>math.h>
+#include "complex.h"
+#include "math.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #define DEL_ROUND_ERR 0
@@ -23,7 +23,5 @@ void dft(CPXTYPE aSamples[], COMPLEX spectrum[], unsigned int iPoints);
 void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], unsigned int iPoints);
 void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], unsigned int iPoints);
 void dft_phase(CPXTYPE aSamples[], CPXTYPE aMagnitude[], unsigned int iPoints);
-void dft_both_k(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], unsigned int k, unsigned int iPoints);
-CPXTYPE dft_mag_k(CPXTYPE aSamples[], unsigned int k, unsigned int iPoints);
-CPXTYPE dft_phase_k(CPXTYPE aSamples[], unsigned int k, unsigned int iPoints);
+
 #endif /* _H_DFT */

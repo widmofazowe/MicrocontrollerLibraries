@@ -48,10 +48,10 @@ typedef struct {
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 COMPLEX cpx(CPXTYPE a, CPXTYPE b);
-void cpx_add(COMPLEX* a, COMPLEX* b);
-void cpx_sub(COMPLEX* a, COMPLEX* b);
-void cpx_mul(COMPLEX* a, COMPLEX* b);
-void cpx_div(COMPLEX* a, COMPLEX* b);
+COMPLEX cpx_add(COMPLEX* a, COMPLEX* b);
+COMPLEX cpx_sub(COMPLEX* a, COMPLEX* b);
+COMPLEX cpx_mul(COMPLEX* a, COMPLEX* b);
+COMPLEX cpx_div(COMPLEX* a, COMPLEX* b);
 __inline CPXTYPE cpx_abs(COMPLEX* x);
 CPXTYPE cpx_angle(COMPLEX* x);
 COMPLEX cpx_cconjugate(COMPLEX* x);
@@ -70,5 +70,9 @@ void cpx_sub_re(COMPLEX* a, CPXTYPE re);
 void cpx_sub_im(COMPLEX* a, CPXTYPE im);
 void cpx_mul_k(COMPLEX* a, CPXTYPE k);
 void cpx_div_k(COMPLEX* a, CPXTYPE k);
+void cpx_addr(COMPLEX* a, COMPLEX* b);
+void cpx_subr(COMPLEX* a, COMPLEX* b);
+void cpx_mulr(COMPLEX* a, COMPLEX* b);
+void cpx_divr(COMPLEX* a, COMPLEX* b);
 
 #endif /* _H_COMPLEX */
