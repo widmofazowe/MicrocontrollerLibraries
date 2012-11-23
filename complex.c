@@ -34,63 +34,58 @@ COMPLEX cpx(CPXTYPE a, CPXTYPE b) {
 /*******************************************************************************
 * Function Name  : cpx_add
 * Description    : Add a complex numbers.
-* Input          : a:a pointer to the first COMPLEX varible
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : complex addition of a and b (a+b).
+* Return         : None.
 *******************************************************************************/
-COMPLEX cpx_add(COMPLEX* a, COMPLEX* b) {
-	COMPLEX tmp;
-	tmp.re = a->re + b->re;
-	tmp.im = a->im + b->im;
-	return tmp;
+void cpx_add(COMPLEX* a, COMPLEX* b) {
+	a->re += b->re;
+	a->im += b->im;
+
 }
 
 /*******************************************************************************
 * Function Name  : cpx_sub
 * Description    : Substract a complex numbers.
-* Input          : a:a pointer to the first COMPLEX varible
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : COMPLEX variable of a substraction of a and b (a-b).
+* Return         : None.
 *******************************************************************************/
-COMPLEX cpx_sub(COMPLEX* a, COMPLEX* b) {
-	COMPLEX tmp;
-	tmp.re = a->re - b->re;
-	tmp.im = a->im - b->im;
-	return tmp;
+void cpx_sub(COMPLEX* a, COMPLEX* b) {
+
+	a->re -= b->re;
+	a->im -= b->im;
+
 }
 
 /*******************************************************************************
 * Function Name  : cpx_mul
 * Description    : Multiply a complex numbers.
-* Input          : a:a pointer to the first COMPLEX varible
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : COMPLEX variable of a multiplication of a and b (a*b).
+* Return         : None.
 *******************************************************************************/
-COMPLEX cpx_mul(COMPLEX* a, COMPLEX* b) {
-	COMPLEX tmp;
-	tmp.re = a->re * b->re - a->im * b->im;
-	tmp.im = a->re * b->im + b->re * a->im;
-	return tmp;
+void cpx_mul(COMPLEX* a, COMPLEX* b) {
+	a->re = a->re * b->re - a->im * b->im;
+	a->im = a->re * b->im + b->re * a->im;
 }
 
 /*******************************************************************************
 * Function Name  : cpx_div
 * Description    : Divide a complex numbers.
-* Input          : a:a pointer to the first COMPLEX varible
+* Input          : a:a pointer to the first COMPLEX varible and a pointer to the result
 * 				   b:a pointer to the second COMPLEX varible
 * Output         : None.
-* Return         : COMPLEX variable of a devision of a and b (a/b).
+* Return         : None.
 *******************************************************************************/
-COMPLEX cpx_div(COMPLEX* a, COMPLEX* b) {
-	COMPLEX tmp;
+void cpx_div(COMPLEX* a, COMPLEX* b) {
 	CPXTYPE tm = b->re * b->re + b->im * b->im;
-	cpx_conjugate(b);  //b->im = -b->im;
-	tmp.re = (a->re * b->re - a->im * b->im)/tm;
-	tmp.im = (a->re * b->im + b->re * a->im)/tm;
-	return tmp;
+	b->im = -b->im;
+	a->re = (a->re * b->re - a->im * b->im)/tm;
+	a->im = (a->re * b->im + b->re * a->im)/tm;
 }
 
 /*******************************************************************************
@@ -101,7 +96,7 @@ COMPLEX cpx_div(COMPLEX* a, COMPLEX* b) {
 * Return         : Magnitude of a complex number (sqrt(x.re^2 + x.im^2)).
 *******************************************************************************/
 __inline CPXTYPE cpx_abs(COMPLEX* x) {
-	return (CPXTYPE) sqrt(x->re*x->re + x->im*x->im);
+	return (CPXTYPE) sqrtf(x->re*x->re + x->im*x->im);
 }
 
 /*******************************************************************************
@@ -114,8 +109,8 @@ __inline CPXTYPE cpx_abs(COMPLEX* x) {
 CPXTYPE cpx_angle(COMPLEX* x) {
 	CPXTYPE tmp;
 	if(x->im == CPX_ZERO)
-		return M_PI/2;
-	tmp = (CPXTYPE) atan(x->im/x->re)
+		return M_PI_2;
+	tmp = (CPXTYPE) atanf(x->im/x->re);
 	if(x->re < CPX_ZERO) {
 		tmp = (x->im > CPX_ZERO) ? tmp + M_PI : tmp - M_PI;
 	}
@@ -192,8 +187,8 @@ COMPLEXtrig cpx_c2t(COMPLEX* x) {
 *******************************************************************************/
 COMPLEX cpx_t2c(COMPLEXtrig* x) {
 	COMPLEX tmp;
-	tmp.re = (CPXTYPE) cos(x->angle)/x->magnitude;
-	tmp.im = (CPXTYPE) sin(x->angle)/x->magnitude;
+	tmp.re = (CPXTYPE) cosf(x->angle)/x->magnitude;
+	tmp.im = (CPXTYPE) sinf(x->angle)/x->magnitude;
 	return tmp;
 }
 
@@ -242,8 +237,8 @@ COMPLEX cpx_zero() {
 *******************************************************************************/
 COMPLEX cpx_e(CPXTYPE mag, CPXTYPE angle) {
 	COMPLEX tmp;
-	tmp.re = (CPXTYPE) mag*cos(angle);
-	tmp.re = (CPXTYPE) mag*sin(angle);
+	tmp.re = (CPXTYPE) mag*cosf(angle);
+	tmp.re = (CPXTYPE) mag*sinf(angle);
 	return tmp;
 }
 

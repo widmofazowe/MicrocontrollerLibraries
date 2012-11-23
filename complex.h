@@ -8,27 +8,17 @@
 #ifndef _H_COMPLEX
 #define _H_COMPLEX
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f10x.h"
 
-/* Exported types ------------------------------------------------------------*/
-typedef float CPXTYPE; //should be float or double
 
-typedef struct {
-	CPXTYPE re;
-	CPXTYPE im;
-} COMPLEX;
-
-typedef struct {
-	CPXTYPE magnitude;
-	CPXTYPE angle;
-} COMPLEXtrig;
 /* Exported constants --------------------------------------------------------*/
-#define CPX_FLOAT_MODE  (1)
-#define CPX_DOUBLE_MODE  (2)
+#define CPX_FLOAT_MODE  (0)
+#define CPX_DOUBLE_MODE  (1)
+
 //for CPX_TYPE as float use #define CPX_MODE CPX_FLOAT_MODE
 //for CPX_TYPE as double use #define CPX_MODE CPX_DOUBLE_MODE
 #define CPX_MODE CPX_FLOAT_MODE
 //define CPX_MODE CPX_DOUBLE_MODE
+
 #if CPX_MODE == CPX_FLOAT_MODE
 	#define CPX_ZERO 0.0f
 	#define CPX_180OVERPI 57.29578f
@@ -38,13 +28,30 @@ typedef struct {
 	#define CPX_180OVERPI 57.295779513082
 	#define CPX_PIOVER180 0.01745329252
 #endif
+
+/* Exported types ------------------------------------------------------------*/
+#if CPX_MODE == CPX_FLOAT_MODE
+	typedef float CPXTYPE;
+#else
+	typedef double CPXTYPE;
+#endif
+typedef struct {
+	CPXTYPE re;
+	CPXTYPE im;
+} COMPLEX;
+
+typedef struct {
+	CPXTYPE magnitude;
+	CPXTYPE angle;
+} COMPLEXtrig;
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 COMPLEX cpx(CPXTYPE a, CPXTYPE b);
-COMPLEX cpx_add(COMPLEX* a, COMPLEX* b);
-COMPLEX cpx_sub(COMPLEX* a, COMPLEX* b);
-COMPLEX cpx_mul(COMPLEX* a, COMPLEX* b);
-COMPLEX cpx_div(COMPLEX* a, COMPLEX* b);
+void cpx_add(COMPLEX* a, COMPLEX* b);
+void cpx_sub(COMPLEX* a, COMPLEX* b);
+void cpx_mul(COMPLEX* a, COMPLEX* b);
+void cpx_div(COMPLEX* a, COMPLEX* b);
 __inline CPXTYPE cpx_abs(COMPLEX* x);
 CPXTYPE cpx_angle(COMPLEX* x);
 COMPLEX cpx_cconjugate(COMPLEX* x);

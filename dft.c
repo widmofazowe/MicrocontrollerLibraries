@@ -22,8 +22,8 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft(CPXTYPE aSamples[], COMPLEX aResults[], short unsigned int N) {
-	short unsigned int i, k, steps = N/2;
+void dft(CPXTYPE aSamples[], COMPLEX aResults[], unsigned int N) {
+	unsigned int i, k, steps = N/2;
 	CPXTYPE dc = CPX_ZERO;
 	for(i = 0; i < steps; ++i) {
 		aResults[i] = cpx_zero();
@@ -35,7 +35,7 @@ void dft(CPXTYPE aSamples[], COMPLEX aResults[], short unsigned int N) {
 	for(k = 1; k < steps; ++k) {
 		for(i = 0; i < N; ++i) {
 			COMPLEX x = cpx_e(aSamples[i], M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
-			aResults[k] = cpx_add(&aResults[k], &x);
+			cpx_add(&aResults[k], &x);
 		}
 
 		if((int)(aResults[k].re*100000.0) == 0) {
@@ -59,16 +59,16 @@ void dft(CPXTYPE aSamples[], COMPLEX aResults[], short unsigned int N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], short unsigned int N) {
-	short unsigned int i, k, steps = N/2;
+void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], unsigned int N) {
+	unsigned int i, k, steps = N/2;
 	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
 
 	for(k = 0; k < steps; ++k) {
 		real = imag = CPX_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cos(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
-			imag -= aSamples[i] * sin(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -80,8 +80,8 @@ void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], short 
 		}
 #endif
 
-		aMagnitude[k] = sqrt(real*real + imag*imag)*2/N;
-		aPhase[k] = atan(imag/real)*CPX_180OVERPI;
+		aMagnitude[k] = sqrtf(real*real + imag*imag)*2/N;
+		aPhase[k] = atanf(imag/real)*CPX_180OVERPI;
 		if(real < CPX_ZERO) {
 			aPhase[k] = (imag > CPX_ZERO) ? aPhase[k] + M_PI : aPhase[k] - M_PI;
 		}
@@ -98,16 +98,16 @@ void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], short 
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], short unsigned int N) {
-	short unsigned int i, k, steps = N/2;
+void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], unsigned int N) {
+	unsigned int i, k, steps = N/2;
 	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
 
 	for(k = 0; k < steps; ++k) {
 		real = imag = CPX_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cos(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
-			imag -= aSamples[i] * sin(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -118,7 +118,7 @@ void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], short unsigned int N) {
 			imag = CPX_ZERO;
 		}
 #endif
-		aMagnitude[k] = sqrt(real*real + imag*imag)*2/N;
+		aMagnitude[k] = sqrtf(real*real + imag*imag)*2/N;
 	}
 	aMagnitude[0] /= 2;
 }
@@ -133,16 +133,16 @@ void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], short unsigned int N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_phase(CPXTYPE aSamples[], CPXTYPE aPhase[], short unsigned int N) {
-	short unsigned int i, k, steps = N/2;
+void dft_phase(CPXTYPE aSamples[], CPXTYPE aPhase[], unsigned int N) {
+	unsigned int i, k, steps = N/2;
 	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
 
 	for(k = 0; k < steps; ++k) {
 		real = imag = CPX_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cos(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
-			imag -= aSamples[i] * sin(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+			imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -153,7 +153,7 @@ void dft_phase(CPXTYPE aSamples[], CPXTYPE aPhase[], short unsigned int N) {
 			imag = CPX_ZERO;
 		}
 #endif
-		aPhase[k] = atan(imag/real)*CPX_180OVERPI;
+		aPhase[k] = atanf(imag/real)*CPX_180OVERPI;
 		if(real < CPX_ZERO) {
 			aPhase[k] = (imag > CPX_ZERO) ? aPhase[k] + M_PI : aPhase[k] - M_PI;
 		}

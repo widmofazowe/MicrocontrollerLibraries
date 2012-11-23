@@ -19,9 +19,9 @@
 #define DEL_ROUND_ERR 0
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void dft(CPXTYPE aSamples[], COMPLEX spectrum[], short unsigned int iPoints);
-void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], short unsigned int iPoints);
-void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], short unsigned int iPoints);
-void dft_phase(CPXTYPE aSamples[], CPXTYPE aMagnitude[], short unsigned int iPoints);
+void dft(CPXTYPE aSamples[], COMPLEX spectrum[], unsigned int iPoints);
+void dft_both(CPXTYPE aSamples[], CPXTYPE aMagnitude[], CPXTYPE aPhase[], unsigned int iPoints);
+void dft_mag(CPXTYPE aSamples[], CPXTYPE aMagnitude[], unsigned int iPoints);
+void dft_phase(CPXTYPE aSamples[], CPXTYPE aMagnitude[], unsigned int iPoints);
 
 #endif /* _H_DFT */
