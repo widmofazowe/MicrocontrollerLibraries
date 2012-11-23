@@ -108,7 +108,7 @@ __inline CPXTYPE cpx_abs(COMPLEX* x) {
 *******************************************************************************/
 CPXTYPE cpx_angle(COMPLEX* x) {
 	CPXTYPE tmp;
-	if(x->im == CPX_ZERO)
+	if(x->real == CPX_ZERO)
 		return M_PI_2;
 	tmp = (CPXTYPE) atanf(x->im/x->re);
 	if(x->re < CPX_ZERO) {

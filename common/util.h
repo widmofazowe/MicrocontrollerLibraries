@@ -26,6 +26,8 @@
 
 #if UTIL_MODE == UTIL_FLOAT_MODE
 	#define UTIL_ZERO 0.0f
+	#define UTIL_HALF 0.5f
+	#define UTIL_THREE 3.0f
 	#ifndef M_PI
 		#define M_PI		3.1415927f
 	#endif
@@ -37,6 +39,8 @@
 	#endif
 #else
 	#define UTIL_ZERO = 0.0
+	#define UTIL_HALF 0.5
+	#define UTIL_THREE 3.0
 	#ifndef M_PI
 		#define M_PI		3.14159265358979323846
 	#endif
@@ -48,10 +52,6 @@
 	#endif
 #endif
 
-//if equal to 0 compute difference using (f(x+h)-f1(x))/h;
-//if equal to 1 compute difference using (f(x+h)-f(x-h))/(2*h);
-#define USE_DIFF_2H 0
-
 /* Exported types ------------------------------------------------------------*/
 #if UTIL_MODE == UTIL_FLOAT_MODE
 	typedef float UTILTYPE;
@@ -61,7 +61,13 @@
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned int N);
-UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned int N);
-UTILTYPE util_difference(UTILTYPE samples[], UTILTYPE h, unsigned int point);
+UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
+UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
+UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
+UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned int point);
+UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned int point);
+unsigned int util_factorial(unsigned int x);
+int util_abs_i(int x);
+float util_abs_f(float x);
+double util_abs_d(double x);
 #endif /* _H_UTIL */

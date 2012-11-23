@@ -160,3 +160,118 @@ void dft_phase(CPXTYPE aSamples[], CPXTYPE aPhase[], unsigned int N) {
 	}
 }
 
+/*******************************************************************************
+* Function Name  : dft_both_k
+* Description    : Compute spectrum magnitude and phase using dft of N points at point k.
+* Input          : aSamples:a table with samples
+* 				   aMagnitude: a pointer where spectrum magnitude will be held
+* 				   aPhase: a pointer where spectrum phase  will be held
+* 				   k: point where dft is being calculated
+* 				   N: number of points
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void dft_both_k(CPXTYPE aSamples[], CPXTYPE* magnitude, CPXTYPE* phase, unsigned int k, unsigned int iPoints) {
+	unsigned int i, k, steps = N/2;
+	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
+
+	real = imag = CPX_ZERO;
+
+	for(i = 0; i < N; ++i) {
+		real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+		imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+	}
+
+#if DEL_ROUND_ERR == 1
+	if((int)(real*100000.0) == 0) {
+		real = CPX_ZERO;
+	}
+	if((int)(imag*100000.0) == 0) {
+		imag = CPX_ZERO;
+	}
+#endif
+	if(k == 0) {
+		*magnitude = sqrtf(real*real + imag*imag)*2/N;
+	} else {
+		*magnitude = sqrtf(real*real + imag*imag)/N;
+	}
+	if(real == CPX_ZERO) {
+		*phase M_PI_2;
+	} else {
+		*phase = atanf(imag/real)*CPX_180OVERPI;
+		if(real < CPX_ZERO) {
+			*phase = (imag > CPX_ZERO) ? *phase + M_PI : *phase - M_PI;
+		}
+	}
+}
+
+/*******************************************************************************
+* Function Name  : dft_mag_k
+* Description    : Compute spectrum magnitude using dft of N points at point k.
+* Input          : aSamples:a table with samples
+* 				   k: point where dft is being calculated
+* 				   N: number of points
+* Output         : None.
+* Return         : Magnitude at point k.
+*******************************************************************************/
+CPXTYPE dft_mag_k(CPXTYPE aSamples[], unsigned int k, unsigned int iPoints) {
+	unsigned int i, k, steps = N/2;
+	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
+
+	real = imag = CPX_ZERO;
+
+	for(i = 0; i < N; ++i) {
+		real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+		imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+	}
+
+#if DEL_ROUND_ERR == 1
+	if((int)(real*100000.0) == 0) {
+		real = CPX_ZERO;
+	}
+	if((int)(imag*100000.0) == 0) {
+		imag = CPX_ZERO;
+	}
+#endif
+	if(k == 0)
+		return sqrtf(real*real + imag*imag)/N;
+	else
+		return sqrtf(real*real + imag*imag)*2/N;
+}
+
+/*******************************************************************************
+* Function Name  : dft_phase_k
+* Description    : Compute spectrum phase using dft of N points at point k.
+* Input          : aSamples:a table with samples
+* 				   k: point where dft is being calculated
+* 				   N: number of points
+* Output         : None.
+* Return         : Phase at point k.
+*******************************************************************************/
+CPXTYPE dft_phase_k(CPXTYPE aSamples[], unsigned int k, unsigned int iPoints) {
+	unsigned int i, k, steps = N/2;
+	CPXTYPE real = CPX_ZERO, imag = CPX_ZERO;
+
+	real = imag = CPX_ZERO;
+
+	for(i = 0; i < N; ++i) {
+		real += aSamples[i] * cosf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+		imag -= aSamples[i] * sinf(M_TWOPI * (CPXTYPE) (i * k)/(CPXTYPE)(N));
+	}
+
+#if DEL_ROUND_ERR == 1
+	if((int)(real*100000.0) == 0) {
+		real = CPX_ZERO;
+	}
+	if((int)(imag*100000.0) == 0) {
+		imag = CPX_ZERO;
+	}
+#endif
+	if(real == CPX_ZERO)
+		return M_PI_2;
+	ph = atanf(imag/real)*CPX_180OVERPI;
+	if(real < CPX_ZERO) {
+		ph = (imag > CPX_ZERO) ? ph + M_PI : ph - M_PI;
+	}
+	return ph;
+}
