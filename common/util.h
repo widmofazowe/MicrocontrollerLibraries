@@ -67,4 +67,6 @@ unsigned int util_factorial(unsigned int x);
 int util_abs_i(int x);
 float util_abs_f(float x);
 double util_abs_d(double x);
+unsigned lcm(unsigned a, unsigned b);
+
 #endif /* _H_UTIL */
