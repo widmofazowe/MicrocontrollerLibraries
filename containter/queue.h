@@ -1,26 +1,32 @@
 /*
- * fft.h
+ * queue.h
  *
- *  Created on: Nov 23, 2012
+ *  Created on: Nov 24, 2012
  *      Author: widmo
- *  Notes:
- *  	DFT computes in 27.882 (dft_both function), 41.823 (dft function).
- *  	FFT computes in 0.025 (fft function)
  */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef FFT_H_
-#define FFT_H_
+#ifndef QUEUE_H_
+#define QUEUE_H_
 
 /* Includes ------------------------------------------------------------------*/
-#include "../common/util.h"
-#include "../common/complex.h"
 
 /* Exported types ------------------------------------------------------------*/
+typedef char QUEUETYPE;
+typedef struct {
+	unsigned size;
+	unsigned read;
+	unsigned write;
+	QUEUETYPE* address;
+} QUEUE;
+
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void fft_init(int N);
-void fft_free();
-void fft(CPXTYPE samples[], COMPLEX spectrum[], int N);
+QUEUE* queue_create(unsigned n);
+void enqueue(QUEUE* q, QUEUETYPE x);
+QUEUETYPE dequeue(QUEUE* q);
+void queue_destroy(QUEUE* q);
+void queue_resize(QUEUE* q, unsigned n);
+unsigned queue_num(QUEUE* q);
 
-#endif /* FFT_H_ */
+#endif /* QUEUE_H_ */

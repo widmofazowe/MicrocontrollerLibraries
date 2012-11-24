@@ -12,8 +12,7 @@
 #define _H_DFT
 
 /* Includes ------------------------------------------------------------------*/
-#include "complex.h"
-#include "math.h"
+#include "../common/complex.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #define DEL_ROUND_ERR 0
