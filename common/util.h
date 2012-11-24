@@ -19,12 +19,13 @@
 //for UTIL_TYPE as float use #define UTIL_MODE UTIL_FLOAT_MODE
 //for UTIL_TYPE as double use #define UTIL_MODE UTIL_DOUBLE_MODE
 #define UTIL_MODE UTIL_FLOAT_MODE
-//define UTIL_MODE UTIL_DOUBLE_MODE
+//#define UTIL_MODE UTIL_DOUBLE_MODE
 
 #if UTIL_MODE == UTIL_FLOAT_MODE
 	#define UTIL_ZERO 0.0f
 	#define UTIL_HALF 0.5f
 	#define UTIL_THREE 3.0f
+	#define UTIL_ERR 0.00001f
 	#ifndef M_PI
 		#define M_PI		3.1415927f
 	#endif
@@ -35,9 +36,10 @@
 		#define M_PI_2		1.5707963f
 	#endif
 #else
-	#define UTIL_ZERO = 0.0
+	#define UTIL_ZERO 0.0
 	#define UTIL_HALF 0.5
 	#define UTIL_THREE 3.0
+	#define UTIL_ERR 0.000001
 	#ifndef M_PI
 		#define M_PI		3.14159265358979323846
 	#endif
@@ -58,15 +60,17 @@
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
-UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
-UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned int start, unsigned int stop);
-UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned int point);
-UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned int point);
-unsigned int util_factorial(unsigned int x);
+UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
+UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
+UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
+UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned point);
+UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point);
+unsigned int util_factorial(unsigned x);
 int util_abs_i(int x);
 float util_abs_f(float x);
 double util_abs_d(double x);
-unsigned lcm(unsigned a, unsigned b);
+unsigned util_fpow(unsigned x, unsigned n);
+UTILTYPE util_pow(UTILTYPE x, int n);
+UTILTYPE util_root(UTILTYPE x, int n);
 
 #endif /* _H_UTIL */

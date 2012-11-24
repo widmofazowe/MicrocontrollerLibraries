@@ -19,7 +19,9 @@ typedef struct {
 	unsigned int n;
 } STACK;
 /* Exported constants --------------------------------------------------------*/
-//increases stack by this value every time its size is exceeded.
+#define STACK_USEAUTORESIZING 0
+//Increases stack by this value every time its size is exceeded when previuos
+//option is set to 1.
 #define STACK_STEP 16
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
@@ -28,5 +30,7 @@ void stack_push(STACK* stack, STACKTYPE el);
 STACKTYPE stack_pop(STACK* stack);
 short int stack_empty(STACK* stack);
 void stack_destroy(STACK* stack);
+void stack_resize(STACK* stack, unsigned n);
+unsigned stack_num(STACK* stack);
 
 #endif /* _H_STACK */

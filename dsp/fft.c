@@ -105,7 +105,7 @@ void fft(CPXTYPE samples[], COMPLEX spectrum[], int N) {
 				ai = k + i;
 				bi = ai + halfstep;
 				a = spectrum[ai];
-				b = cpx_mul(&spectrum[bi], &fft_w[k*N/step]);
+				b = cpx_mul(&spectrum[bi], (COMPLEX*) &fft_w[k*N/step]);
 				spectrum[ai] = cpx_add(&a, &b);
 				b.re = -b.re;
 				b.im = -b.im;

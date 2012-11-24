@@ -16,15 +16,15 @@
 
 //for CPX_TYPE as float use #define CPX_MODE CPX_FLOAT_MODE
 //for CPX_TYPE as double use #define CPX_MODE CPX_DOUBLE_MODE
-#define CPX_MODE CPX_FLOAT_MODE
-//define CPX_MODE CPX_DOUBLE_MODE
+//#define CPX_MODE CPX_FLOAT_MODE
+#define CPX_MODE CPX_DOUBLE_MODE
 
 #if CPX_MODE == CPX_FLOAT_MODE
 	#define CPX_ZERO 0.0f
 	#define CPX_180OVERPI 57.29578f
 	#define CPX_PIOVER180 0.0174533f
 #else
-	#define CPX_ZERO = 0.0
+	#define CPX_ZERO 0.0
 	#define CPX_180OVERPI 57.295779513082
 	#define CPX_PIOVER180 0.01745329252
 #endif
