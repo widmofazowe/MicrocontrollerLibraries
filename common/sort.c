@@ -22,7 +22,7 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_bubble(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTEDTYPE b)) {
+void sort_bubble(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	n--;
@@ -47,7 +47,7 @@ void sort_bubble(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTEDTYP
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_insertion(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTEDTYPE b)) {
+void sort_insertion(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	for (i = 1; i < n; ++i) {
@@ -70,7 +70,7 @@ void sort_insertion(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTED
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_selection(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTEDTYPE b)) {
+void sort_selection(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j, min = 0;
 	SORTEDTYPE tmp;
 	for (i = 0; i < n-1; ++i) {
@@ -86,6 +86,65 @@ void sort_selection(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE a, SORTED
 	}
 }
 
+/*******************************************************************************
+* Function Name  : sort_quick
+* Description    : Sort table using quick sort algorithm.
+* Input          : tab: table which will be sorted,
+* 				   n: number of elements in table,
+* 				   f: pointer to the function with sorting comparison.
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void sort_quick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
+	SORTEDTYPE x = tab[n/2], tmp;
+	int i = 0, j = n - 1;
+	if(n == 1)
+		return;
+	do {
+		while(f(tab[i], x)) i++;
+		while(f(x, tab[j])) j--;
+		if(i <= j) {
+			tmp = tab[i];
+			tab[i] = tab[j];
+			tab[j] = tmp;
+			i++;
+			j--;
+		}
+	} while(i < j);
+	if (0 < j) sort_quick(&tab[0], j + 1, f);
+	if (n > i) sort_quick(&tab[i], n - i, f);
+}
+
+/*******************************************************************************
+* Function Name  : sort_hybridquick
+* Description    : Sort table using hybrid quick sort algorithm with help algorithm.
+* Input          : tab: table which will be sorted,
+* 				   n: number of elements in table,
+* 				   f: pointer to the function with sorting comparison.
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void sort_hybridquick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE), void (*sort)(SORTEDTYPE*, int, short(*f)(SORTEDTYPE, SORTEDTYPE))) {
+	SORTEDTYPE x = tab[n/2], tmp;
+	int i = 0, j = n - 1;
+	if (n > 10) {
+		do {
+			while(f(tab[i], x)) i++;
+			while(f(x, tab[j])) j--;
+			if(i <= j) {
+				tmp = tab[i];
+				tab[i] = tab[j];
+				tab[j] = tmp;
+				i++;
+				j--;
+			}
+		} while(i < j);
+		if (0 < j) sort_quick(&tab[0], j + 1, f);
+		if (n > i) sort_quick(&tab[i], n - i, f);
+	} else {
+		sort(tab, n, f);
+	}
+}
 
 /*******************************************************************************
 * Function Name  : sort_type_asc
