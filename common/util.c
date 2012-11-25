@@ -124,6 +124,19 @@ unsigned int util_factorial(unsigned x) {
 }
 
 /*******************************************************************************
+* Function Name  : util_abs
+* Description    : Compute absolute of an UTILTYPE number.
+* Input          : x: UTILTYPE number.
+* Output         : None.
+* Return         : Absolute of an UTILTYPE number.
+*******************************************************************************/
+UTILTYPE util_abs(UTILTYPE x) {
+	if(x < UTIL_ZERO)
+		x = -x;
+	return x;
+}
+
+/*******************************************************************************
 * Function Name  : util_abs_i
 * Description    : Compute absolute of an integer number.
 * Input          : x: integer number.

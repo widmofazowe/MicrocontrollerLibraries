@@ -24,16 +24,26 @@
 #if UTIL_MODE == UTIL_FLOAT_MODE
 	#define UTIL_ZERO 0.0f
 	#define UTIL_HALF 0.5f
+	#define UTIL_ONE 1.0f
 	#define UTIL_TWO 2.0f
 	#define UTIL_THREE 3.0f
 	#define UTIL_ERR 0.00001f
 	#define UTIL_180OVERPI 57.2957795f
 	#define UTIL_PIOVER180 0.0174533f
+	#ifndef M_1_PI
+		#define M_1_PI		0.31830989f
+	#endif
+	#ifndef M_E
+		#define M_E			2.71828183f
+	#endif
 	#ifndef M_PI
 		#define M_PI		3.1415927f
 	#endif
 	#ifndef M_TWOPI
 		#define M_TWOPI     6.2831853f
+	#endif
+	#ifndef M_FOURPI
+		#define M_FOURPI	12.5663706f
 	#endif
 	#ifndef M_PI_2
 		#define M_PI_2		1.5707963f
@@ -41,19 +51,29 @@
 #else
 	#define UTIL_ZERO 0.0
 	#define UTIL_HALF 0.5
+	#define UTIL_ONE 1.0
 	#define UTIL_TWO 2.0
 	#define UTIL_THREE 3.0
 	#define UTIL_ERR 0.000001
-	#define UTIL_180OVERPI 57.2957795f130823208767
-	#define UTIL_PIOVER180 0.01745329251994329577
+	#define UTIL_180OVERPI 57.2957795f13082321
+	#define UTIL_PIOVER180 0.0174532925199433
+	#ifndef M_1_PI
+		#define M_1_PI		0.3183098861837906715
+	#endif
+	#ifndef M_E
+		#define M_E			2.7182818284590452354
+	#endif
 	#ifndef M_PI
-		#define M_PI		3.14159265358979323846
+		#define M_PI		3.1415926535897932385
 	#endif
 	#ifndef M_TWOPI
-		#define M_TWOPI     6.28318530717958647693
+		#define M_TWOPI     6.2831853071795864769
+	#endif
+	#ifndef M_FOURPI
+		#define M_FOURPI	12.5663706143591729539
 	#endif
 	#ifndef M_PI_2
-		#define M_PI_2		1.57079632679489661923
+		#define M_PI_2		1.5707963267948966192
 	#endif
 #endif
 
@@ -75,6 +95,7 @@ UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, u
 UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned point);
 UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point);
 unsigned int util_factorial(unsigned x);
+UTILTYPE util_abs(UTILTYPE x);
 int util_abs_i(int x);
 float util_abs_f(float x);
 double util_abs_d(double x);
