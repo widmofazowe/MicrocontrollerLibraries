@@ -7,14 +7,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "fft.h"
 #include <malloc.h>
-#include <math.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-//cos(2*pi*x) = cos_table(x)
-//sin(2*pi*x) = cos_table((x+N/4)%N)
-volatile CPXTYPE *cos_table;
 volatile unsigned *fft_index_table;
 volatile COMPLEX *fft_w;
 /* Private function prototypes -----------------------------------------------*/
@@ -45,19 +41,17 @@ int _fft_sample_index(int n, int N){
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void fft_init(int N) {
-    int i;
-    cos_table = (CPXTYPE*) malloc(N*sizeof(CPXTYPE));
+void fft_init(unsigned N) {
+    unsigned i;
     fft_index_table = (unsigned*) malloc(N*sizeof(unsigned));
     fft_w = (COMPLEX*) malloc(N*sizeof(COMPLEX));
     for(i = 0; i < N; ++i) {
-        cos_table[i] = (CPXTYPE) cos(M_TWOPI*(CPXTYPE)(i)/(CPXTYPE)N);
         fft_index_table[i] = _fft_sample_index(i, N);
     }
 
     for(i = 0; i < N/2; ++i) {
-        fft_w[i].re = cos_table[i];
-        fft_w[i].im = cos_table[i+(N/4)%N];
+        fft_w[i].re = util_cos[i];
+        fft_w[i].im = util_cos[i+(N/4)%N];
     }
 
 }
@@ -70,7 +64,6 @@ void fft_init(int N) {
 * Return         : None.
 *******************************************************************************/
 void fft_free() {
-    free((void*) cos_table);
     free((void*) fft_index_table);
     free((void*) fft_w);
 }
@@ -83,18 +76,24 @@ void fft_free() {
 * Input          : samples: index of table,
 * 				   N: number of samples.
 * Output         : None.
-* Return         : Index of shuffled sample.
+* Return         : None.
 *******************************************************************************/
-void fft(CPXTYPE samples[], COMPLEX spectrum[], int N) {
+void fft(UTILTYPE samples[], COMPLEX spectrum[], int N) {
 	int i = 0, halfstep, k;
 	int step = 0;
 	COMPLEX a, b;
     int ai, bi;
 
 	for(i = 0; i < N; i += 2) {
+#if FFT_USEPRECALCULATION == 1
 		spectrum[i].re = samples[fft_index_table[i]] + samples[fft_index_table[i+1]];
 		spectrum[i+1].re = samples[fft_index_table[i]] - samples[fft_index_table[i+1]];
-		spectrum[i].im = spectrum[i+1].im = CPX_ZERO;
+		spectrum[i].im = spectrum[i+1].im = UTIL_ZERO;
+#else
+		spectrum[i].re = samples[_fft_sample_index(i, N)] + samples[_fft_sample_index(i+1, N)];
+		spectrum[i+1].re = samples[_fft_sample_index(i, N)] - samples[_fft_sample_index(i+1, N)];
+		spectrum[i].im = spectrum[i+1].im = UTIL_ZERO;
+#endif
 	}
 
 
@@ -102,10 +101,18 @@ void fft(CPXTYPE samples[], COMPLEX spectrum[], int N) {
 		halfstep = step/2;
 		for(i = 0; i < N; i += step) {
 			for(k = 0; k < halfstep; ++k) {
+#if FFT_USEPRECALCULATION == 0
+				COMPLEX x;
+#endif
 				ai = k + i;
 				bi = ai + halfstep;
 				a = spectrum[ai];
+#if FFT_USEPRECALCULATION == 1
 				b = cpx_mul(&spectrum[bi], (COMPLEX*) &fft_w[k*N/step]);
+#else
+				x = cpx_e(1, k*N/step);
+				b = cpx_mul(&spectrum[bi], &x);
+#endif
 				spectrum[ai] = cpx_add(&a, &b);
 				b.re = -b.re;
 				b.im = -b.im;
@@ -114,9 +121,9 @@ void fft(CPXTYPE samples[], COMPLEX spectrum[], int N) {
 		}
 	}
 	halfstep = N/2;
-	cpx_div_k(&spectrum[0], (CPXTYPE)N);
+	cpx_div_k(&spectrum[0], (UTILTYPE)N);
 	for(i = 1; i < halfstep; ++i) {
-		cpx_div_k(&spectrum[i], (CPXTYPE)halfstep);
+		cpx_div_k(&spectrum[i], (UTILTYPE)halfstep);
 	}
 
 }

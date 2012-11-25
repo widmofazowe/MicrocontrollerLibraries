@@ -17,7 +17,7 @@
 /*******************************************************************************
 * Function Name  : queue_create
 * Description    : Create a queue (buffer).
-* Input          : n: size of queue
+* Input          : n: size of queue.
 * Output         : None.
 * Return         : A pointer to a created queue.
 *******************************************************************************/
@@ -33,8 +33,8 @@ QUEUE* queue_create(unsigned n) {
 /*******************************************************************************
 * Function Name  : enqueue
 * Description    : Add an element to queue (buffer).
-* Input          : q: a pointer to the queue
-* 				   x: an element which is added
+* Input          : q: a pointer to the queue,
+* 				   x: an element which is added.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
@@ -48,7 +48,7 @@ void enqueue(QUEUE* q, QUEUETYPE x) {
 /*******************************************************************************
 * Function Name  : dequeue
 * Description    : Read an element from queue (buffer).
-* Input          : q: a pointer to the queue
+* Input          : q: a pointer to the queue.
 * Output         : None.
 * Return         : Element which is read.
 *******************************************************************************/

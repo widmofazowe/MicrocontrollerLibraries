@@ -117,7 +117,8 @@ void sort_quick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
 
 /*******************************************************************************
 * Function Name  : sort_hybridquick
-* Description    : Sort table using hybrid quick sort algorithm with help algorithm.
+* Description    : Sort table using hybrid quick sort algorithm with help
+*                  algorithm.
 * Input          : tab: table which will be sorted,
 * 				   n: number of elements in table,
 * 				   f: pointer to the function with sorting comparison.

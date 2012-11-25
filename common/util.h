@@ -24,8 +24,11 @@
 #if UTIL_MODE == UTIL_FLOAT_MODE
 	#define UTIL_ZERO 0.0f
 	#define UTIL_HALF 0.5f
+	#define UTIL_TWO 2.0f
 	#define UTIL_THREE 3.0f
 	#define UTIL_ERR 0.00001f
+	#define UTIL_180OVERPI 57.2957795f
+	#define UTIL_PIOVER180 0.0174533f
 	#ifndef M_PI
 		#define M_PI		3.1415927f
 	#endif
@@ -38,8 +41,11 @@
 #else
 	#define UTIL_ZERO 0.0
 	#define UTIL_HALF 0.5
+	#define UTIL_TWO 2.0
 	#define UTIL_THREE 3.0
 	#define UTIL_ERR 0.000001
+	#define UTIL_180OVERPI 57.2957795f130823208767
+	#define UTIL_PIOVER180 0.01745329251994329577
 	#ifndef M_PI
 		#define M_PI		3.14159265358979323846
 	#endif
@@ -58,7 +64,10 @@
 	typedef double UTILTYPE;
 #endif
 
+
 /* Exported macro ------------------------------------------------------------*/
+/* Exported variables --------------------------------------------------------*/
+extern volatile UTILTYPE *util_cos;
 /* Exported functions ------------------------------------------------------- */
 UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
 UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
@@ -72,5 +81,7 @@ double util_abs_d(double x);
 unsigned util_fpow(unsigned x, unsigned n);
 UTILTYPE util_pow(UTILTYPE x, int n);
 UTILTYPE util_root(UTILTYPE x, int n);
-
+UTILTYPE util_sqrt(UTILTYPE x);
+void util_initcos();
+void util_free();
 #endif /* _H_UTIL */

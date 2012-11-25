@@ -6,21 +6,26 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "util.h"
+#include <math.h>
+#include <malloc.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
+//cos(2*pi*x) = cos_table(x)
+//sin(2*pi*x) = cos_table((x+N/4)%N)
+volatile UTILTYPE *util_cos;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
 /*******************************************************************************
 * Function Name  : util_trapezoid_integral
 * Description    : Compute integral using trapezoid approximation.
-* Input          : samples: a table with samples of function which is being integrated
-* 				   h: spacing between samples
-* 				   start: number of sample where start the integration
-* 				   stop: number of sample where stop the integration
+* Input          : samples: a table with samples of function which is being
+*                           integrated,
+* 				   h: spacing between samples,
+* 				   start: number of sample where start the integration,
+* 				   stop: number of sample where stop the integration.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
@@ -36,9 +41,10 @@ UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned start,
 /*******************************************************************************
 * Function Name  : util_rect_integral
 * Description    : Compute integral using rectangular approximation.
-* Input          : samples: a table with samples of function which is being integrated
-* 				   h: spacing between samples
-* 				   N: number of samples
+* Input          : samples: a table with samples of function which is being
+*                           integrated,
+* 				   h: spacing between samples,
+* 				   N: number of samples.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
@@ -54,9 +60,10 @@ UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsi
 /*******************************************************************************
 * Function Name  : util_parabol_integral
 * Description    : Compute integral using rectangular approximation.
-* Input          : samples: a table with samples of function which is being integrated
-* 				   h: spacing between samples
-* 				   N: number of samples
+* Input          : samples: a table with samples of function which is being
+*                           integrated,
+* 				   h: spacing between samples,
+* 				   N: number of samples.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
@@ -72,10 +79,11 @@ UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, u
 /*******************************************************************************
 * Function Name  : util_difference1
 * Description    : Compute difference at given point with using (f(x+h)-f1(x))/h.
-* Input          : samples: a table with samples of function where difference is being calculated
-* 				   h: spacing between samples
-* 				   point: number of sample where difference is being calculated
-* 				   N: number of samples
+* Input          : samples: a table with samples of function where difference
+*                           is being calculated,
+* 				   h: spacing between samples,
+* 				   point: number of sample where difference is being calculated,
+* 				   N: number of samples.
 * Output         : None.
 * Return         : Difference of samples at desired point.
 *******************************************************************************/
@@ -86,10 +94,11 @@ UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned point) {
 /*******************************************************************************
 * Function Name  : util_difference2
 * Description    : Compute difference at given point using (f(x+h)-f(x-h))/(2*h).
-* Input          : samples: a table with samples of function where difference is being calculated
-* 				   h: spacing between samples
-* 				   point: number of sample where difference is being calculated
-* 				   N: number of samples
+* Input          : samples: a table with samples of function where difference is
+*                           being calculated,
+* 				   h: spacing between samples,
+* 				   point: number of sample where difference is being calculated,
+* 				   N: number of samples.
 * Output         : None.
 * Return         : Difference of samples at desired point.
 *******************************************************************************/
@@ -100,7 +109,7 @@ UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point) {
 /*******************************************************************************
 * Function Name  : util_factorial
 * Description    : Compute factorial of a number.
-* Input          : x: number of which factorial is being computed
+* Input          : x: number of which factorial is being computed.
 * Output         : None.
 * Return         : Factorial of a given number.
 *******************************************************************************/
@@ -117,7 +126,7 @@ unsigned int util_factorial(unsigned x) {
 /*******************************************************************************
 * Function Name  : util_abs_i
 * Description    : Compute absolute of an integer number.
-* Input          : x: integer number
+* Input          : x: integer number.
 * Output         : None.
 * Return         : Absolute of an integer number.
 *******************************************************************************/
@@ -130,7 +139,7 @@ int util_abs_i(int x) {
 /*******************************************************************************
 * Function Name  : util_abs_f
 * Description    : Compute absolute of a float number.
-* Input          : x: float number
+* Input          : x: float number.
 * Output         : None.
 * Return         : Absolute of a float number.
 *******************************************************************************/
@@ -143,7 +152,7 @@ float util_abs_f(float x) {
 /*******************************************************************************
 * Function Name  : util_abs_d
 * Description    : Compute absolute of a double number.
-* Input          : x: double number
+* Input          : x: double number.
 * Output         : None.
 * Return         : Absolute of a double number.
 *******************************************************************************/
@@ -228,4 +237,49 @@ UTILTYPE util_root(UTILTYPE x, int n) {
 			e = -e;
 	}
 	return result;
+}
+
+/*******************************************************************************
+* Function Name  : util_sqrt
+* Description    : Compute square root of x.
+* Input          : x: number.
+* Output         : None.
+* Return         : Square root of x.
+*******************************************************************************/
+UTILTYPE util_sqrt(UTILTYPE x) {
+	UTILTYPE result = x;
+	UTILTYPE e = M_PI;
+	while(e >= UTIL_ERR) {
+		result = (result + (x/result))/UTIL_TWO;
+		e = (x - result * result);
+		if(e < UTIL_ZERO)
+			e = -e;
+	}
+	return result;
+}
+
+/*******************************************************************************
+* Function Name  : util_initcos
+* Description    : Initialize cos table.
+* Input          : N: number of derived points (spacing - 2pi/N).
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void util_initcos(unsigned N) {
+	unsigned i;
+	util_cos = (UTILTYPE*) malloc(N*sizeof(UTILTYPE));
+    for(i = 0; i < N; ++i) {
+    	util_cos[i] = (UTILTYPE) cosf(M_TWOPI*(UTILTYPE)(i)/(UTILTYPE)N);
+    }
+}
+
+/*******************************************************************************
+* Function Name  : util_free
+* Description    : Free memory of cosinus table.
+* Input          : None.
+* Output         : None.
+* Return         : None.
+*******************************************************************************/
+void util_free() {
+	free((void*) util_cos);
 }
