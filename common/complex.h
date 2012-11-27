@@ -53,5 +53,6 @@ void cpx_addr(COMPLEX* a, COMPLEX* b);
 void cpx_subr(COMPLEX* a, COMPLEX* b);
 void cpx_mulr(COMPLEX* a, COMPLEX* b);
 void cpx_divr(COMPLEX* a, COMPLEX* b);
+BOOL cpx_cmp(COMPLEX* a, COMPLEX* b);
 
 #endif /* _H_COMPLEX */

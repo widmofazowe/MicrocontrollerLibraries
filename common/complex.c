@@ -383,3 +383,18 @@ void cpx_divr(COMPLEX* a, COMPLEX* b) {
 	a->re = (x * b->re + a->im * b->im)/tm;
 	a->im = (a->im * b->re - x * b->im)/tm;
 }
+
+/*******************************************************************************
+* Function Name  : cpx_cmp
+* Description    : Compare two complex numbers.
+* Input          : a:a pointer to the first COMPLEX number,
+* 				   b:a pointer to the second COMPLEX number.
+* Output         : None.
+* Return         : TRUE (1) when the numbers are equal or FALSE (0) when not.
+*******************************************************************************/
+BOOL cpx_cmp(COMPLEX* a, COMPLEX* b) {
+	if(a->re == b->re && a->im == b->im)
+		return TRUE;
+	else
+		return FALSE;
+}
