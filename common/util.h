@@ -84,6 +84,7 @@
 	typedef double UTILTYPE;
 #endif
 
+typedef enum {FALSE = 0, TRUE = 1} BOOL;
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/
