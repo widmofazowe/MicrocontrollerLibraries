@@ -61,7 +61,7 @@ VECTORTYPE vector_get(VECTOR* q, unsigned i) {
 /*******************************************************************************
 * Function Name  : vector_destroy
 * Description    : Destroy vector and free memory.
-* Input          : q: pointer to the stack.
+* Input          : q: pointer to the vector.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/

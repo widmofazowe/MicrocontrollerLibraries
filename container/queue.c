@@ -42,7 +42,7 @@ void enqueue(QUEUE* q, QUEUETYPE x) {
 	if(q->write >= q->size) {
 		q->write = 0;
 	}
-	if(pqueue_num(q) < q->size) { //check if buffer isnt full
+	if(queue_num(q) < q->size) { //check if buffer isnt full
 		q->address[q->write++] = x;
 	}
 }
@@ -59,13 +59,14 @@ QUEUETYPE dequeue(QUEUE* q) {
 		q->read = 0;
 	}
 
-	return (q->read == q->write) ? NULL : q->address[q->read++];
+	return q->address[q->read++];
+
 }
 
 /*******************************************************************************
 * Function Name  : queue_destroy
 * Description    : Destroy queue and free memory.
-* Input          : q: pointer to the stack.
+* Input          : q: pointer to the queue.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
@@ -99,4 +100,15 @@ unsigned queue_num(QUEUE* q) {
 		return q->write-q->read;
 	else
 		return q->size-(q->read-q->write);
+}
+
+/*******************************************************************************
+* Function Name  : queue_empty
+* Description    : Return TRUE when queue is empty.
+* Input          : q: a pointer to queue.
+* Output         : None.
+* Return         : TRUE when queue is empty, FALSE in otherwise.
+*******************************************************************************/
+BOOL queue_empty(QUEUE* q) {
+	return(q->read == q->write) ? TRUE : FALSE;
 }

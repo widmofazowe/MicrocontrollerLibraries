@@ -28,5 +28,5 @@ QUEUETYPE dequeue(QUEUE* q);
 void queue_destroy(QUEUE* q);
 void queue_resize(QUEUE* q, unsigned n);
 unsigned queue_num(QUEUE* q);
-
+BOOL queue_empty(QUEUE* q);
 #endif /* QUEUE_H_ */

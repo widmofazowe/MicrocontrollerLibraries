@@ -16,11 +16,11 @@
 
 /*******************************************************************************
 * Function Name  : pqueue_create
-* Description    : Create a pqueue (buffer).
-* Input          : n: size of pqueue,
+* Description    : Create a priority queue (buffer).
+* Input          : n: size of priority queue,
 * 				   f: a pointer to the function that check priority.
 * Output         : None.
-* Return         : A pointer to a created pqueue.
+* Return         : A pointer to a created priority queue.
 *******************************************************************************/
 PQUEUE* pqueue_create(unsigned n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE)) {
 	PQUEUE* q;
@@ -34,8 +34,8 @@ PQUEUE* pqueue_create(unsigned n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE)) {
 
 /*******************************************************************************
 * Function Name  : penqueue
-* Description    : Add an element to pqueue (buffer).
-* Input          : q: a pointer to the pqueue,
+* Description    : Add an element to priority queue (buffer).
+* Input          : q: a pointer to the priority queue,
 * 				   x: an element which is added.
 * Output         : None.
 * Return         : None.
@@ -63,8 +63,8 @@ void penqueue(PQUEUE* q, PQUEUETYPE x) {
 
 /*******************************************************************************
 * Function Name  : pdequeue
-* Description    : Read an element from pqueue (buffer).
-* Input          : q: a pointer to the pqueue.
+* Description    : Read an element from priority queue (buffer).
+* Input          : q: a pointer to the priority queue.
 * Output         : None.
 * Return         : Element which is read.
 *******************************************************************************/
@@ -72,13 +72,14 @@ PQUEUETYPE pdequeue(PQUEUE* q) {
 	if(q->read >= q->size) {
 		q->read -= q->size;
 	}
-	return (q->read == q->write) ? NULL : q->address[q->read++];
+
+	return q->address[q->read++];
 }
 
 /*******************************************************************************
 * Function Name  : pqueue_destroy
-* Description    : Destroy pqueue and free memory.
-* Input          : q: pointer to the stack.
+* Description    : Destroy priority queue and free memory.
+* Input          : q: pointer to the priority queue.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
@@ -89,9 +90,9 @@ void pqueue_destroy(PQUEUE* q) {
 
 /*******************************************************************************
 * Function Name  : pqueue_resize
-* Description    : Resize pqueue.
-* Input          : q: a pointer to pqueue,
-* 				   n: a new size of pqueue.
+* Description    : Resize priority queue.
+* Input          : q: a pointer to priority queue,
+* 				   n: a new size of priority queue.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
@@ -102,16 +103,27 @@ void pqueue_resize(PQUEUE* q, unsigned n) {
 
 /*******************************************************************************
 * Function Name  : pqueue_num
-* Description    : Calculate number of elements in pqueue.
-* Input          : q: a pointer to pqueue.
+* Description    : Calculate number of elements in priority queue.
+* Input          : q: a pointer to priority queue.
 * Output         : None.
-* Return         : Number of elements in pqueue.
+* Return         : Number of elements in priority queue.
 *******************************************************************************/
 unsigned pqueue_num(PQUEUE* q) {
 	if(q->write >= q->read)
 		return q->write-q->read;
 	else
 		return q->size-(q->read-q->write);
+}
+
+/*******************************************************************************
+* Function Name  : pqueue_empty
+* Description    : Return TRUE when priority queue is empty.
+* Input          : q: a pointer to priority queue.
+* Output         : None.
+* Return         : TRUE when priority queue is empty, FALSE in otherwise.
+*******************************************************************************/
+BOOL pqueue_empty(QUEUE* q) {
+	return(q->read == q->write) ? TRUE : FALSE;
 }
 
 /*******************************************************************************
