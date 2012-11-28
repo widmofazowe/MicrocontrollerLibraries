@@ -51,12 +51,12 @@ void penqueue(PQUEUE* q, PQUEUETYPE x) {
 		}
 		if(wr < 0)
 			wr += q->size;
-		while(q->pfunc(q->address[wr], x) && wr != rd) {
-			q->address[(wr+1)%q->size] = q->address[wr];
+		while(q->pfunc(*(q->address+wr), x) && wr != rd) {
+			*(q->address+((wr+1)%q->size)) = *(q->address+wr);
 			if(--wr < 0)
 				wr += q->size;
 		}
-		q->address[(wr+1)%q->size] = x;
+		*(q->address+((wr+1)%q->size)) = x;
 		q->write++;
 	}
 }
@@ -73,7 +73,7 @@ PQUEUETYPE pdequeue(PQUEUE* q) {
 		q->read -= q->size;
 	}
 
-	return q->address[q->read++];
+	return *(q->address+(q->read++));
 }
 
 /*******************************************************************************
@@ -122,7 +122,7 @@ unsigned pqueue_num(PQUEUE* q) {
 * Output         : None.
 * Return         : TRUE when priority queue is empty, FALSE in otherwise.
 *******************************************************************************/
-BOOL pqueue_empty(QUEUE* q) {
+BOOL pqueue_empty(PQUEUE* q) {
 	return(q->read == q->write) ? TRUE : FALSE;
 }
 

@@ -30,7 +30,7 @@ PQUEUETYPE pdepqueue(PQUEUE* q);
 void pqueue_destroy(PQUEUE* q);
 void pqueue_resize(PQUEUE* q, unsigned n);
 unsigned pqueue_num(PQUEUE* q);
-BOOL pqueue_empty(QUEUE* q);
+BOOL pqueue_empty(PQUEUE* q);
 
 __inline BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b);
 __inline BOOL pqueue_desc(PQUEUETYPE a, PQUEUETYPE b);

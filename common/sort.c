@@ -22,17 +22,17 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_bubble(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_bubble(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	n--;
 	for(i = 0; i < n; ++i) {
 		for(j = 0; j < n-i; ++j) {
-			if(f(tab[j+1], tab[j])) {
+			if(f(*(tab+j+1), *(tab+j))) {
 				//swap
-				tmp = tab[j];
-				tab[j] = tab[j+1];
-				tab[j+1] = tmp;
+				tmp = *(tab+j);
+				*(tab+j) = *(tab+j+1);
+				*(tab+j+1) = tmp;
 			}
 		}
 	}
@@ -47,17 +47,17 @@ void sort_bubble(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE))
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_insertion(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_insertion(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	for (i = 1; i < n; ++i) {
 		j = i;
-		tmp = tab[i];
-		while(f(tmp, tab[j-1]) && (j > 0)) {
-			tab[j] = tab[j-1];
+		tmp = *(tab+i);
+		while(f(tmp, *(tab+j-1)) && (j > 0)) {
+			*(tab+j) = *(tab+j-1);
 			j--;
 		}
-		tab[j] = tmp;
+		*(tab+j) = tmp;
 	}
 }
 
@@ -70,19 +70,19 @@ void sort_insertion(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYP
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_selection(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_selection(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j, min = 0;
 	SORTEDTYPE tmp;
 	for (i = 0; i < n-1; ++i) {
 		for(min = i, j = i+1; j < n; ++j) {
-			if(f(tab[j], tab[min])) {
+			if(f(*(tab+j), *(tab+min))) {
 				min = j;
 			}
 		}
 		//swap
-		tmp = tab[i];
-		tab[i] = tab[min];
-		tab[min] = tmp;
+		tmp = *(tab+i);
+		*(tab+i) = *(tab+min);
+		*(tab+min) = tmp;
 	}
 }
 
@@ -96,23 +96,23 @@ void sort_selection(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYP
 * Return         : None.
 *******************************************************************************/
 void sort_quick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
-	SORTEDTYPE x = tab[n/2], tmp;
+	SORTEDTYPE x = *(tab+n/2), tmp;
 	int i = 0, j = n - 1;
 	if(n == 1)
 		return;
 	do {
-		while(f(tab[i], x)) i++;
-		while(f(x, tab[j])) j--;
+		while(f(*(tab+i), x)) i++;
+		while(f(x, *(tab+j))) j--;
 		if(i <= j) {
-			tmp = tab[i];
-			tab[i] = tab[j];
-			tab[j] = tmp;
+			tmp = *(tab+i);
+			*(tab+i) = *(tab+j);
+			*(tab+j) = tmp;
 			i++;
 			j--;
 		}
 	} while(i < j);
-	if (0 < j) sort_quick(&tab[0], j + 1, f);
-	if (n > i) sort_quick(&tab[i], n - i, f);
+	if (0 < j) sort_quick(tab, j + 1, f);
+	if (n > i) sort_quick(tab+i, n - i, f);
 }
 
 /*******************************************************************************
@@ -126,22 +126,22 @@ void sort_quick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 * Return         : None.
 *******************************************************************************/
 void sort_hybridquick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE), void (*sort)(SORTEDTYPE*, int, BOOL(*f)(SORTEDTYPE, SORTEDTYPE))) {
-	SORTEDTYPE x = tab[n/2], tmp;
+	SORTEDTYPE x = *(tab+n/2), tmp;
 	int i = 0, j = n - 1;
 	if (n > 10) {
 		do {
-			while(f(tab[i], x)) i++;
-			while(f(x, tab[j])) j--;
+			while(f(*(tab+i), x)) i++;
+			while(f(x, *(tab+j))) j--;
 			if(i <= j) {
-				tmp = tab[i];
-				tab[i] = tab[j];
-				tab[j] = tmp;
+				tmp = *(tab+i);
+				*(tab+i) = *(tab+j);
+				*(tab+j) = tmp;
 				i++;
 				j--;
 			}
 		} while(i < j);
-		if (0 < j) sort_quick(&tab[0], j + 1, f);
-		if (n > i) sort_quick(&tab[i], n - i, f);
+		if (0 < j) sort_quick(tab, j + 1, f);
+		if (n > i) sort_quick(tab+i, n - i, f);
 	} else {
 		sort(tab, n, f);
 	}

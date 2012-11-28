@@ -22,6 +22,6 @@
 /* Exported functions ------------------------------------------------------- */
 void fft_init(unsigned N);
 void fft_free();
-void fft(UTILTYPE samples[], COMPLEX spectrum[], int N);
+void fft(UTILTYPE *samples, COMPLEX *spectrum, int N);
 
 #endif /* FFT_H_ */

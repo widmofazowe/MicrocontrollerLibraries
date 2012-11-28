@@ -46,12 +46,12 @@ void fft_init(unsigned N) {
     fft_index_table = (unsigned*) malloc(N*sizeof(unsigned));
     fft_w = (COMPLEX*) malloc(N*sizeof(COMPLEX));
     for(i = 0; i < N; ++i) {
-        fft_index_table[i] = _fft_sample_index(i, N);
+        *(fft_index_table+i) = _fft_sample_index(i, N);
     }
 
     for(i = 0; i < N/2; ++i) {
-        fft_w[i].re = util_cos[i];
-        fft_w[i].im = util_cos[i+(N/4)%N];
+        (fft_w+i)->re = *(util_cos+i);
+        (fft_w+i)->im = *(util_cos+(i+(N/4)%N));
     }
 
 }
@@ -78,7 +78,7 @@ void fft_free() {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void fft(UTILTYPE samples[], COMPLEX spectrum[], int N) {
+void fft(UTILTYPE *samples, COMPLEX *spectrum, int N) {
 	int i = 0, halfstep, k;
 	int step = 0;
 	COMPLEX a, b;
@@ -86,13 +86,13 @@ void fft(UTILTYPE samples[], COMPLEX spectrum[], int N) {
 
 	for(i = 0; i < N; i += 2) {
 #if FFT_USEPRECALCULATION == 1
-		spectrum[i].re = samples[fft_index_table[i]] + samples[fft_index_table[i+1]];
-		spectrum[i+1].re = samples[fft_index_table[i]] - samples[fft_index_table[i+1]];
-		spectrum[i].im = spectrum[i+1].im = UTIL_ZERO;
+		(spectrum+i)->re = *(samples+(*(fft_index_table+i))) + *(samples+(*(fft_index_table+i+1)));
+		(spectrum+i+1)->re = *(samples+(*(fft_index_table+i))) - *(samples+(*(fft_index_table+i+1)));
+		(spectrum+i)->im = (spectrum+i+1)->im = UTIL_ZERO;
 #else
-		spectrum[i].re = samples[_fft_sample_index(i, N)] + samples[_fft_sample_index(i+1, N)];
-		spectrum[i+1].re = samples[_fft_sample_index(i, N)] - samples[_fft_sample_index(i+1, N)];
-		spectrum[i].im = spectrum[i+1].im = UTIL_ZERO;
+		(spectrum+i)->re = samples[_fft_sample_index(i, N)] + samples[_fft_sample_index(i+1, N)];
+		(spectrum+i+1)->re = samples[_fft_sample_index(i, N)] - samples[_fft_sample_index(i+1, N)];
+		(spectrum+i)->im = (spectrum+i+1)->im = UTIL_ZERO;
 #endif
 	}
 
@@ -106,24 +106,24 @@ void fft(UTILTYPE samples[], COMPLEX spectrum[], int N) {
 #endif
 				ai = k + i;
 				bi = ai + halfstep;
-				a = spectrum[ai];
+				a = *(spectrum+ai);
 #if FFT_USEPRECALCULATION == 1
-				b = cpx_mul(&spectrum[bi], (COMPLEX*) &fft_w[k*N/step]);
+				b = cpx_mul(spectrum+bi, (COMPLEX*) fft_w+k*N/step);
 #else
 				x = cpx_e(1, k*N/step);
-				b = cpx_mul(&spectrum[bi], &x);
+				b = cpx_mul(spectrum+bi, &x);
 #endif
-				spectrum[ai] = cpx_add(&a, &b);
+				*(spectrum+ai) = cpx_add(&a, &b);
 				b.re = -b.re;
 				b.im = -b.im;
-				spectrum[bi] = cpx_add(&a, &b);
+				*(spectrum+bi) = cpx_add(&a, &b);
 			}
 		}
 	}
 	halfstep = N/2;
-	cpx_div_k(&spectrum[0], (UTILTYPE)N);
+	cpx_div_k(spectrum, (UTILTYPE)N);
 	for(i = 1; i < halfstep; ++i) {
-		cpx_div_k(&spectrum[i], (UTILTYPE)halfstep);
+		cpx_div_k(spectrum+i, (UTILTYPE)halfstep);
 	}
 
 }

@@ -44,7 +44,7 @@ void vector_set(VECTOR* q, unsigned i, VECTORTYPE x) {
 		q->address = (VECTORTYPE*) realloc(q->address, (q->size)*sizeof(VECTORTYPE));
 	}
 #endif
-	q->address[i] = x;
+	*(q->address+i) = x;
 }
 
 /*******************************************************************************
@@ -55,7 +55,7 @@ void vector_set(VECTOR* q, unsigned i, VECTORTYPE x) {
 * Return         : Element which is read.
 *******************************************************************************/
 VECTORTYPE vector_get(VECTOR* q, unsigned i) {
-	return q->address[i];
+	return *(q->address+i);
 }
 
 /*******************************************************************************
@@ -94,5 +94,5 @@ void vector_resize(VECTOR* q, unsigned n) {
 void vector_fill(VECTOR* q, VECTORTYPE x) {
 	unsigned i;
 	for(i = 0; i < q->size; ++i)
-		q->address[i] = x;
+		*(q->address+i) = x;
 }

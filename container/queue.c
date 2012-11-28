@@ -43,7 +43,7 @@ void enqueue(QUEUE* q, QUEUETYPE x) {
 		q->write = 0;
 	}
 	if(queue_num(q) < q->size) { //check if buffer isnt full
-		q->address[q->write++] = x;
+		*(q->address+(q->write++)) = x;
 	}
 }
 
@@ -59,7 +59,7 @@ QUEUETYPE dequeue(QUEUE* q) {
 		q->read = 0;
 	}
 
-	return q->address[q->read++];
+	return *(q->address+(q->read++));
 
 }
 

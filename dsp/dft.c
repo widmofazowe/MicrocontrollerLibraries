@@ -23,30 +23,30 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft(UTILTYPE aSamples[], COMPLEX aResults[], unsigned N) {
+void dft(UTILTYPE *aSamples, COMPLEX *aResults, unsigned N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE dc = UTIL_ZERO;
 	for(i = 0; i < N; ++i) {
-		aResults[i] = cpx_zero();
-		dc += aSamples[i];
+		*(aResults+i) = cpx_zero();
+		dc += *(aSamples+i);
 	}
-	aResults[0].re = dc/(UTILTYPE)N;
-	aResults[0].im = UTIL_ZERO;
+	aResults->re = dc/(UTILTYPE)N;
+	aResults->im = UTIL_ZERO;
 
 	for(k = 1; k < steps; ++k) {
 		for(i = 0; i < N; ++i) {
-			COMPLEX x = cpx_e(aSamples[i], -M_TWOPI * (UTILTYPE) (i * k)/((UTILTYPE)(N)));
-			cpx_addr(&aResults[k], &x);
+			COMPLEX x = cpx_e(*(aSamples+i), -M_TWOPI * (UTILTYPE) (i * k)/((UTILTYPE)(N)));
+			cpx_addr(aResults+k, &x);
 		}
 #if DEL_ROUND_ERR == 1
-		if((int)(aResults[k].re*100000) == 0) {
+		if((int)((aResults+k)->re*100000) == 0) {
 			aResults[k].re = UTIL_ZERO;
 		}
-		if((int)(aResults[k].im*100000) == 0) {
+		if((int)((aResult+k)->im*100000) == 0) {
 			aResults[k].im = UTIL_ZERO;
 		}
 #endif
-		cpx_mul_k(&aResults[k], UTIL_TWO/(UTILTYPE)N);
+		cpx_mul_k(aResults+k, UTIL_TWO/(UTILTYPE)N);
 	}
 }
 
@@ -60,7 +60,7 @@ void dft(UTILTYPE aSamples[], COMPLEX aResults[], unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_both(UTILTYPE aSamples[], UTILTYPE aMagnitude[], UTILTYPE aPhase[], unsigned N) {
+void dft_both(UTILTYPE *aSamples, UTILTYPE *aMagnitude, UTILTYPE *aPhase, unsigned N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -68,8 +68,8 @@ void dft_both(UTILTYPE aSamples[], UTILTYPE aMagnitude[], UTILTYPE aPhase[], uns
 		real = imag = UTIL_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-			imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -81,13 +81,13 @@ void dft_both(UTILTYPE aSamples[], UTILTYPE aMagnitude[], UTILTYPE aPhase[], uns
 		}
 #endif
 
-		aMagnitude[k] = sqrtf(real*real + imag*imag)*2/N;
-		aPhase[k] = atanf(imag/real)*UTIL_180OVERPI;
+		*(aMagnitude+k) = sqrtf(real*real + imag*imag)*2/N;
+		*(aPhase+k) = atanf(imag/real)*UTIL_180OVERPI;
 		if(real < UTIL_ZERO) {
-			aPhase[k] = (imag > UTIL_ZERO) ? aPhase[k] + M_PI : aPhase[k] - M_PI;
+			*(aPhase+k) = (imag > UTIL_ZERO) ? *(aPhase+k) + M_PI : *(aPhase+k) - M_PI;
 		}
 	}
-	aMagnitude[0] /= UTIL_TWO;
+	*aMagnitude /= UTIL_TWO;
 }
 
 /*******************************************************************************
@@ -99,7 +99,7 @@ void dft_both(UTILTYPE aSamples[], UTILTYPE aMagnitude[], UTILTYPE aPhase[], uns
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_mag(UTILTYPE aSamples[], UTILTYPE aMagnitude[], unsigned N) {
+void dft_mag(UTILTYPE *aSamples, UTILTYPE *aMagnitude, unsigned N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -107,8 +107,8 @@ void dft_mag(UTILTYPE aSamples[], UTILTYPE aMagnitude[], unsigned N) {
 		real = imag = UTIL_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-			imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -119,9 +119,9 @@ void dft_mag(UTILTYPE aSamples[], UTILTYPE aMagnitude[], unsigned N) {
 			imag = CPX_ZERO;
 		}
 #endif
-		aMagnitude[k] = sqrtf(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
+		*(aMagnitude+k) = sqrtf(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
 	}
-	aMagnitude[0] /= UTIL_TWO;
+	*aMagnitude /= UTIL_TWO;
 }
 
 /*******************************************************************************
@@ -133,7 +133,7 @@ void dft_mag(UTILTYPE aSamples[], UTILTYPE aMagnitude[], unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_phase(UTILTYPE aSamples[], UTILTYPE aPhase[], unsigned N) {
+void dft_phase(UTILTYPE *aSamples, UTILTYPE *aPhase, unsigned N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -141,8 +141,8 @@ void dft_phase(UTILTYPE aSamples[], UTILTYPE aPhase[], unsigned N) {
 		real = imag = UTIL_ZERO;
 
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-			imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 		}
 
 #if DEL_ROUND_ERR == 1
@@ -153,9 +153,9 @@ void dft_phase(UTILTYPE aSamples[], UTILTYPE aPhase[], unsigned N) {
 			imag = UTIL_ZERO;
 		}
 #endif
-		aPhase[k] = atanf(imag/real)*UTIL_180OVERPI;
+		*(aPhase+k) = atanf(imag/real)*UTIL_180OVERPI;
 		if(real < UTIL_ZERO) {
-			aPhase[k] = (imag > UTIL_ZERO) ? aPhase[k] + M_PI : aPhase[k] - M_PI;
+			*(aPhase+k) = (imag > UTIL_ZERO) ? *(aPhase+k) + M_PI : *(aPhase+k) - M_PI;
 		}
 	}
 }
@@ -169,13 +169,13 @@ void dft_phase(UTILTYPE aSamples[], UTILTYPE aPhase[], unsigned N) {
 * Output         : None.
 * Return         : Complex number of computed dft.
 *******************************************************************************/
-COMPLEX dft_k(UTILTYPE aSamples[], unsigned k, unsigned N) {
+COMPLEX dft_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 	unsigned i;
 	COMPLEX result;
 	result = cpx_zero();
 
 	for(i = 0; i < N; ++i) {
-		COMPLEX x = cpx_e(aSamples[i], -M_TWOPI * (UTILTYPE) (i * k)/((UTILTYPE)(N)));
+		COMPLEX x = cpx_e(*(aSamples+i), -M_TWOPI * (UTILTYPE) (i * k)/((UTILTYPE)(N)));
 		cpx_addr(&result, &x);
 	}
 #if DEL_ROUND_ERR == 1
@@ -203,18 +203,18 @@ COMPLEX dft_k(UTILTYPE aSamples[], unsigned k, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_both_k(UTILTYPE aSamples[], UTILTYPE* magnitude, UTILTYPE* phase, unsigned k, unsigned N) {
+void dft_both_k(UTILTYPE *aSamples, UTILTYPE *magnitude, UTILTYPE *phase, unsigned k, unsigned N) {
 	unsigned i;
 	UTILTYPE real = UTIL_ZERO, imag = UTIL_ZERO;
 
 	if(k == 0) {
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i];
+			real += *(aSamples+i);
 		}
 	} else {
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-			imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 		}
 	}
 
@@ -248,18 +248,18 @@ void dft_both_k(UTILTYPE aSamples[], UTILTYPE* magnitude, UTILTYPE* phase, unsig
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-UTILTYPE dft_mag_k(UTILTYPE aSamples[], unsigned k, unsigned N) {
+UTILTYPE dft_mag_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 	unsigned i;
 	UTILTYPE real = UTIL_ZERO, imag = UTIL_ZERO;
 
 	if(k == 0) {
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-			imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+			imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 		}
 	} else {
 		for(i = 0; i < N; ++i) {
-			real += aSamples[i];
+			real += *(aSamples+i);
 		}
 	}
 #if DEL_ROUND_ERR == 1
@@ -287,14 +287,14 @@ UTILTYPE dft_mag_k(UTILTYPE aSamples[], unsigned k, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-UTILTYPE dft_phase_k(UTILTYPE aSamples[], unsigned k, unsigned N) {
+UTILTYPE dft_phase_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 	unsigned i;
 	UTILTYPE ph, real = UTIL_ZERO, imag = UTIL_ZERO;
 	if(k == 0)
 		return UTIL_ZERO;
 	for(i = 0; i < N; ++i) {
-		real += aSamples[i] * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
-		imag -= aSamples[i] * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+		real += *(aSamples+i) * cosf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
+		imag -= *(aSamples+i) * sinf(M_TWOPI * (UTILTYPE) (i * k)/(UTILTYPE)(N));
 	}
 
 #if DEL_ROUND_ERR == 1

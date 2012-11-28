@@ -18,9 +18,9 @@ typedef int SORTEDTYPE;
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void sort_bubble(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
-void sort_insertion(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
-void sort_selection(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
+void sort_bubble(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
+void sort_insertion(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
+void sort_selection(SORTEDTYPE *tab, unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
 void sort_quick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE));
 void sort_hybridquick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE), void (*sort)(SORTEDTYPE*, int, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)));
 

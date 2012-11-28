@@ -29,7 +29,7 @@ void windowing_init(UTILTYPE (*f)(int, int), unsigned N) {
 	unsigned i;
 	window = (UTILTYPE*) malloc(N*sizeof(UTILTYPE*));
 	for(i = 0; i < N; ++i) {
-		window[i] = f(i, N);
+		*(window+i) = f(i, N);
 	}
 }
 
@@ -66,7 +66,7 @@ UTILTYPE rectangular(int n, unsigned N) {
 *******************************************************************************/
 UTILTYPE hanning(int n, unsigned N) {
 #if WINDOWING_USEPRECALCULATION == 1
-	return UTIL_HALF*(UTIL_ONE - util_cos[n]);
+	return UTIL_HALF*(UTIL_ONE - *(util_cos+n));
 #else
 	return UTIL_HALF*(UTIL_ONE - cosf(M_TWOPI*(UTILTYPE)n/((UTILTYPE)N)));
 #endif
@@ -82,7 +82,7 @@ UTILTYPE hanning(int n, unsigned N) {
 *******************************************************************************/
 UTILTYPE hamming(int n, unsigned N) {
 #if WINDOWING_USEPRECALCULATION == 1
-	return (WINDOWING_HAMMING + (UTIL_ONE-WINDOWING_HAMMING)*util_cos[n]);
+	return (WINDOWING_HAMMING + (UTIL_ONE-WINDOWING_HAMMING)*(*(util_cos+n)));
 #else
 	return (WINDOWING_HAMMING + (UTIL_ONE-WINDOWING_HAMMING)*cosf(M_TWOPI*(UTILTYPE)n/((UTILTYPE)N)));
 #endif
@@ -98,7 +98,7 @@ UTILTYPE hamming(int n, unsigned N) {
 *******************************************************************************/
 UTILTYPE blackman(int n, unsigned N) {
 #if WINDOWING_USEPRECALCULATION == 1
-	return WINDOWING_BLACKMAN_A0+WINDOWING_BLACKMAN_A1*util_cos[n]+WINDOWING_BLACKMAN_A2*util_cos[2*n%N];
+	return WINDOWING_BLACKMAN_A0+WINDOWING_BLACKMAN_A1*(*(util_cos+n))+WINDOWING_BLACKMAN_A2*(*(util_cos+(2*n%N)));
 #else
 	return WINDOWING_BLACKMAN_A0+WINDOWING_BLACKMAN_A1*cosf(M_TWOPI*(UTILTYPE)n/((UTILTYPE)N))+WINDOWING_BLACKMAN_A2*cosf(M_FOURPI*(UTILTYPE)n/((UTILTYPE)N));
 #endif
@@ -230,7 +230,7 @@ UTILTYPE riemann(int n, unsigned N) {
 	if(n == N/2)
 		return UTIL_ONE;
 	else
-		return util_cos[(x+N/4)%N]/(M_TWOPI*(UTILTYPE)x/(UTILTYPE)N);
+		return *(util_cos+((x+N/4)%N))/(M_TWOPI*(UTILTYPE)x/(UTILTYPE)N);
 #else
 	UTILTYPE x = util_abs((UTILTYPE)(n-(N/2)));
 	if(n == N/2)
