@@ -9,7 +9,7 @@
 #define QUEUE_H_
 
 /* Includes ------------------------------------------------------------------*/
-
+#include "../common/types.h"
 /* Exported types ------------------------------------------------------------*/
 typedef char QUEUETYPE;
 typedef struct {

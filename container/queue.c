@@ -39,10 +39,12 @@ QUEUE* queue_create(unsigned n) {
 * Return         : None.
 *******************************************************************************/
 void enqueue(QUEUE* q, QUEUETYPE x) {
-	if(q->write > q->size-1) {
+	if(q->write >= q->size) {
 		q->write = 0;
 	}
-	*(q->address+q->write++) = x;
+	if(pqueue_num(q) < q->size) { //check if buffer isnt full
+		q->address[q->write++] = x;
+	}
 }
 
 /*******************************************************************************
@@ -53,10 +55,11 @@ void enqueue(QUEUE* q, QUEUETYPE x) {
 * Return         : Element which is read.
 *******************************************************************************/
 QUEUETYPE dequeue(QUEUE* q) {
-	if(q->read > q->size-1) {
+	if(q->read >= q->size) {
 		q->read = 0;
 	}
-	return *(q->address+q->read++);
+
+	return (q->read == q->write) ? NULL : q->address[q->read++];
 }
 
 /*******************************************************************************
