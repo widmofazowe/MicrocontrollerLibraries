@@ -25,9 +25,9 @@ typedef struct {
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 VECTOR* vector_create(unsigned n);
-void vector_set(VECTOR* q, unsigned i, VECTORTYPE x);
-VECTORTYPE vector_get(VECTOR* q, unsigned i);
-void vector_destroy(VECTOR* q);
-void vector_resize(VECTOR* q, unsigned n);
-void vector_fill(VECTOR* q, VECTORTYPE x);
+void vector_set(VECTOR* vector, unsigned i, VECTORTYPE x);
+VECTORTYPE vector_get(VECTOR* vector, unsigned i);
+void vector_destroy(VECTOR* vector);
+void vector_resize(VECTOR* vector, unsigned n);
+void vector_fill(VECTOR* vector, VECTORTYPE x);
 #endif /* VECTOR_H_ */

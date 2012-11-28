@@ -16,83 +16,83 @@
 
 /*******************************************************************************
 * Function Name  : vector_create
-* Description    : Create a vector (buffer).
+* Description    : Create a vector.
 * Input          : n: size of vector.
 * Output         : None.
 * Return         : A pointer to a created vector.
 *******************************************************************************/
 VECTOR* vector_create(unsigned n) {
-	VECTOR* q;
-	q = (VECTOR*) malloc(sizeof(VECTOR));
-	q->size = n;
-	q->address = (VECTORTYPE*) malloc(n*sizeof(VECTORTYPE));
-	return q;
+	VECTOR* vector;
+	vector = (VECTOR*) malloc(sizeof(VECTOR));
+	vector->size = n;
+	vector->address = (VECTORTYPE*) malloc(n*sizeof(VECTORTYPE));
+	return vector;
 }
 
 /*******************************************************************************
 * Function Name  : vector_set
-* Description    : Add an element to vector (buffer).
-* Input          : q: a pointer to the vector,
+* Description    : Add an element to vector.
+* Input          : vector: a pointer to the vector,
 * 				   x: an element which is added.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_set(VECTOR* q, unsigned i, VECTORTYPE x) {
+void vector_set(VECTOR* vector, unsigned i, VECTORTYPE x) {
 #if VECTOR_USEAUTORESIZING == 1
-	if(i >= q->size) {
-		q->size += VECTOR_STEP;
-		q->address = (VECTORTYPE*) realloc(q->address, (q->size)*sizeof(VECTORTYPE));
+	if(i >= vector->size) {
+		vector->size += VECTOR_STEP;
+		vector->address = (VECTORTYPE*) realloc(vector->address, (vector->size)*sizeof(VECTORTYPE));
 	}
 #endif
-	*(q->address+i) = x;
+	*(vector->address+i) = x;
 }
 
 /*******************************************************************************
 * Function Name  : vector_get
-* Description    : Read an element from vector (buffer).
-* Input          : q: a pointer to the vector.
+* Description    : Read an element from vector.
+* Input          : vector: a pointer to the vector.
 * Output         : None.
 * Return         : Element which is read.
 *******************************************************************************/
-VECTORTYPE vector_get(VECTOR* q, unsigned i) {
-	return *(q->address+i);
+VECTORTYPE vector_get(VECTOR* vector, unsigned i) {
+	return *(vector->address+i);
 }
 
 /*******************************************************************************
 * Function Name  : vector_destroy
 * Description    : Destroy vector and free memory.
-* Input          : q: pointer to the vector.
+* Input          : vector: pointer to the vector.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_destroy(VECTOR* q) {
-	free(q->address);
-	free(q);
+void vector_destroy(VECTOR* vector) {
+	free(vector->address);
+	free(vector);
 }
 
 /*******************************************************************************
 * Function Name  : vector_resize
 * Description    : Resize vector.
-* Input          : q: a pointer to vector,
+* Input          : vector: a pointer to vector,
 * 				   n: a new size of vector.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_resize(VECTOR* q, unsigned n) {
-	q->size = n;
-	q->address = (VECTORTYPE*) realloc(q->address, n*sizeof(VECTORTYPE));
+void vector_resize(VECTOR* vector, unsigned n) {
+	vector->size = n;
+	vector->address = (VECTORTYPE*) realloc(vector->address, n*sizeof(VECTORTYPE));
 }
 
 /*******************************************************************************
 * Function Name  : vector_fill
 * Description    : Fill vector with given value.
-* Input          : q: a pointer to vector,
+* Input          : vector: a pointer to vector,
 * 				   x: value.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_fill(VECTOR* q, VECTORTYPE x) {
+void vector_fill(VECTOR* vector, VECTORTYPE x) {
 	unsigned i;
-	for(i = 0; i < q->size; ++i)
-		*(q->address+i) = x;
+	for(i = 0; i < vector->size; ++i)
+		*(vector->address+i) = x;
 }
