@@ -296,3 +296,16 @@ void util_initcos(unsigned N) {
 void util_free() {
 	free((void*) util_cos);
 }
+
+/*******************************************************************************
+* Function Name  : util_mod
+* Description    : Compute the rest from dividing.
+* Input          : x: number,
+* 				   n: dividend.
+* Output         : None.
+* Return         : Rest from dividing x over n.
+*******************************************************************************/
+unsigned util_mod(int x, unsigned n) {
+	x %= n;
+	return (x < 0) ? x+n : x;
+}

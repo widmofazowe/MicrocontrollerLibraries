@@ -12,6 +12,7 @@
 #define _H_UTIL
 
 /* Includes ------------------------------------------------------------------*/
+#include "types.h"
 /* Exported constants --------------------------------------------------------*/
 #define UTIL_FLOAT_MODE  (0)
 #define UTIL_DOUBLE_MODE  (1)
@@ -83,8 +84,6 @@
 #else
 	typedef double UTILTYPE;
 #endif
-
-typedef enum {FALSE = 0, TRUE = 1} BOOL;
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/
