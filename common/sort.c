@@ -22,7 +22,7 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_bubble(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_bubble(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	n--;
@@ -47,7 +47,7 @@ void sort_bubble(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_insertion(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_insertion(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j;
 	SORTEDTYPE tmp;
 	for (i = 1; i < n; ++i) {
@@ -70,7 +70,7 @@ void sort_insertion(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTY
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_selection(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_selection(SORTEDTYPE tab[], unsigned n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	unsigned i, j, min = 0;
 	SORTEDTYPE tmp;
 	for (i = 0; i < n-1; ++i) {
@@ -95,7 +95,7 @@ void sort_selection(SORTEDTYPE tab[], unsigned n, short(*f)(SORTEDTYPE, SORTEDTY
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_quick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
+void sort_quick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE)) {
 	SORTEDTYPE x = tab[n/2], tmp;
 	int i = 0, j = n - 1;
 	if(n == 1)
@@ -125,7 +125,7 @@ void sort_quick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE)) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void sort_hybridquick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE), void (*sort)(SORTEDTYPE*, int, short(*f)(SORTEDTYPE, SORTEDTYPE))) {
+void sort_hybridquick(SORTEDTYPE *tab, int n, BOOL(*f)(SORTEDTYPE, SORTEDTYPE), void (*sort)(SORTEDTYPE*, int, BOOL(*f)(SORTEDTYPE, SORTEDTYPE))) {
 	SORTEDTYPE x = tab[n/2], tmp;
 	int i = 0, j = n - 1;
 	if (n > 10) {
@@ -157,7 +157,7 @@ void sort_hybridquick(SORTEDTYPE *tab, int n, short(*f)(SORTEDTYPE, SORTEDTYPE),
 * Return         : Return 1 when the element a is less then element b.
 * 				   0 - otherwise.
 *******************************************************************************/
-__inline short sort_type_asc(SORTEDTYPE a, SORTEDTYPE b) {
+__inline BOOL sort_type_asc(SORTEDTYPE a, SORTEDTYPE b) {
 	return (a < b);
 }
 
@@ -171,6 +171,6 @@ __inline short sort_type_asc(SORTEDTYPE a, SORTEDTYPE b) {
 * Return         : Return 1 when the element a is greater then element b.
 * 				   0 - otherwise.
 *******************************************************************************/
-__inline short sort_type_desc(SORTEDTYPE a, SORTEDTYPE b) {
+__inline BOOL sort_type_desc(SORTEDTYPE a, SORTEDTYPE b) {
 	return (a > b);
 }
