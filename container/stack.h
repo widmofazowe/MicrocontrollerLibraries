@@ -11,6 +11,7 @@
 #define _H_STACK
 
 /* Includes ------------------------------------------------------------------*/
+#include "../common/types.h"
 /* Exported types ------------------------------------------------------------*/
 typedef char STACKTYPE;
 typedef struct {
@@ -28,7 +29,7 @@ typedef struct {
 STACK* stack_create(int size);
 void stack_push(STACK* stack, STACKTYPE el);
 STACKTYPE stack_pop(STACK* stack);
-short int stack_empty(STACK* stack);
+BOOL stack_empty(STACK* stack);
 void stack_destroy(STACK* stack);
 void stack_resize(STACK* stack, unsigned n);
 unsigned stack_num(STACK* stack);

@@ -69,8 +69,8 @@ STACKTYPE stack_pop(STACK* stack) {
 * Output         : None.
 * Return         : 1 when stack is empty, 0 in another situation.
 *******************************************************************************/
-short int stack_empty(STACK* stack) {
-	return (stack->n == 0) ? 1 : 0 ;
+BOOL stack_empty(STACK* stack) {
+	return (stack->n == 0);
 }
 
 /*******************************************************************************
