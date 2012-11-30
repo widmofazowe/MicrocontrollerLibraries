@@ -14,14 +14,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "../common/util.h"
 #include "../common/complex.h"
-
+#include <stdint.h>
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #define FFT_USEPRECALCULATION 1
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void fft_init(unsigned N);
-void fft_free();
-void fft(UTILTYPE *samples, COMPLEX *spectrum, int N);
+void fft_init(uint16_t N);
+void fft_free(void);
+void fft(UTILTYPE *samples, COMPLEX *spectrum, uint16_t N);
 
 #endif /* FFT_H_ */

@@ -103,8 +103,8 @@ COMPLEX cpx_div(COMPLEX* a, COMPLEX* b) {
 * Output         : None.
 * Return         : Magnitude of a complex number (sqrt(x.re^2 + x.im^2)).
 *******************************************************************************/
-__inline UTILTYPE cpx_abs(COMPLEX* x) {
-	return (UTILTYPE) sqrtf(x->re*x->re + x->im*x->im);
+UTILTYPE cpx_abs(COMPLEX* x) {
+	return (UTILTYPE) util_sqrt(x->re*x->re + x->im*x->im);
 }
 
 /*******************************************************************************
@@ -146,7 +146,7 @@ COMPLEX cpx_cconjugate(COMPLEX* x) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-__inline void cpx_conjugate(COMPLEX* x) {
+void cpx_conjugate(COMPLEX* x) {
 	x->im = -x->im;
 }
 
@@ -157,7 +157,7 @@ __inline void cpx_conjugate(COMPLEX* x) {
 * Output         : None.
 * Return         : Real part of a complex number (x.re).
 *******************************************************************************/
-__inline UTILTYPE cpx_re(COMPLEX* x) {
+UTILTYPE cpx_re(COMPLEX* x) {
 	return x->re;
 }
 
@@ -168,7 +168,7 @@ __inline UTILTYPE cpx_re(COMPLEX* x) {
 * Output         : None.
 * Return         : Imaginary part of a complex number (x.im).
 *******************************************************************************/
-__inline UTILTYPE cpx_im(COMPLEX* x) {
+UTILTYPE cpx_im(COMPLEX* x) {
 	return x->im;
 }
 
@@ -207,7 +207,7 @@ COMPLEX cpx_t2c(COMPLEXtrig* x) {
 * Output         : None.
 * Return         : Value in degrees.
 *******************************************************************************/
-__inline UTILTYPE rad2deg(UTILTYPE x) {
+UTILTYPE rad2deg(UTILTYPE x) {
 	return x*UTIL_180OVERPI;
 }
 
@@ -218,7 +218,7 @@ __inline UTILTYPE rad2deg(UTILTYPE x) {
 * Output         : None.
 * Return         : Value in radians.
 *******************************************************************************/
-__inline UTILTYPE deg2rad(UTILTYPE x) {
+UTILTYPE deg2rad(UTILTYPE x) {
 	return x*UTIL_PIOVER180;
 }
 

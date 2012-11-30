@@ -6,7 +6,7 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "stack.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -22,7 +22,7 @@
 * Output         : None.
 * Return         : A pointer to the stack.
 *******************************************************************************/
-STACK* stack_create(int size) {
+STACK* stack_create(uint16_t size) {
 	STACK* st = (STACK*) malloc(sizeof(STACK));
 	st->size = size;
 	st->n = 0;
@@ -93,7 +93,7 @@ void stack_destroy(STACK* stack) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void stack_resize(STACK* stack, unsigned n) {
+void stack_resize(STACK* stack, uint16_t n) {
 	stack->size = n;
 	stack->top = (STACKTYPE*) realloc(stack->top-stack->n+1, (stack->size)*sizeof(STACKTYPE));
 	stack->top += stack->n-1;

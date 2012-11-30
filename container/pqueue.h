@@ -24,15 +24,15 @@ typedef struct {
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-PQUEUE* pqueue_create(unsigned n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE));
+PQUEUE* pqueue_create(uint16_t n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE));
 void penqueue(PQUEUE* q, PQUEUETYPE x);
 PQUEUETYPE pdepqueue(PQUEUE* q);
 void pqueue_destroy(PQUEUE* q);
-void pqueue_resize(PQUEUE* q, unsigned n);
+void pqueue_resize(PQUEUE* q, uint16_t n);
 unsigned pqueue_num(PQUEUE* q);
 BOOL pqueue_empty(PQUEUE* q);
 
-__inline BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b);
-__inline BOOL pqueue_desc(PQUEUETYPE a, PQUEUETYPE b);
+BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b);
+BOOL pqueue_desc(PQUEUETYPE a, PQUEUETYPE b);
 
 #endif /* PQUEUE_H_ */

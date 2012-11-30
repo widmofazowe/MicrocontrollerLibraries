@@ -23,7 +23,7 @@
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft(UTILTYPE *aSamples, COMPLEX *aResults, unsigned N) {
+void dft(UTILTYPE *aSamples, COMPLEX *aResults, uint16_t N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE dc = UTIL_ZERO;
 	for(i = 0; i < N; ++i) {
@@ -60,7 +60,7 @@ void dft(UTILTYPE *aSamples, COMPLEX *aResults, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_both(UTILTYPE *aSamples, UTILTYPE *aMagnitude, UTILTYPE *aPhase, unsigned N) {
+void dft_both(UTILTYPE *aSamples, UTILTYPE *aMagnitude, UTILTYPE *aPhase, uint16_t N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -81,7 +81,7 @@ void dft_both(UTILTYPE *aSamples, UTILTYPE *aMagnitude, UTILTYPE *aPhase, unsign
 		}
 #endif
 
-		*(aMagnitude+k) = sqrtf(real*real + imag*imag)*2/N;
+		*(aMagnitude+k) = util_sqrt(real*real + imag*imag)*2/N;
 		*(aPhase+k) = atanf(imag/real)*UTIL_180OVERPI;
 		if(real < UTIL_ZERO) {
 			*(aPhase+k) = (imag > UTIL_ZERO) ? *(aPhase+k) + M_PI : *(aPhase+k) - M_PI;
@@ -99,7 +99,7 @@ void dft_both(UTILTYPE *aSamples, UTILTYPE *aMagnitude, UTILTYPE *aPhase, unsign
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_mag(UTILTYPE *aSamples, UTILTYPE *aMagnitude, unsigned N) {
+void dft_mag(UTILTYPE *aSamples, UTILTYPE *aMagnitude, uint16_t N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -119,7 +119,7 @@ void dft_mag(UTILTYPE *aSamples, UTILTYPE *aMagnitude, unsigned N) {
 			imag = CPX_ZERO;
 		}
 #endif
-		*(aMagnitude+k) = sqrtf(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
+		*(aMagnitude+k) = util_sqrt(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
 	}
 	*aMagnitude /= UTIL_TWO;
 }
@@ -133,7 +133,7 @@ void dft_mag(UTILTYPE *aSamples, UTILTYPE *aMagnitude, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_phase(UTILTYPE *aSamples, UTILTYPE *aPhase, unsigned N) {
+void dft_phase(UTILTYPE *aSamples, UTILTYPE *aPhase, uint16_t N) {
 	unsigned i, k, steps = N/2;
 	UTILTYPE real, imag;
 
@@ -169,7 +169,7 @@ void dft_phase(UTILTYPE *aSamples, UTILTYPE *aPhase, unsigned N) {
 * Output         : None.
 * Return         : Complex number of computed dft.
 *******************************************************************************/
-COMPLEX dft_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
+COMPLEX dft_k(UTILTYPE *aSamples, uint16_t k, uint16_t N) {
 	unsigned i;
 	COMPLEX result;
 	result = cpx_zero();
@@ -203,7 +203,7 @@ COMPLEX dft_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void dft_both_k(UTILTYPE *aSamples, UTILTYPE *magnitude, UTILTYPE *phase, unsigned k, unsigned N) {
+void dft_both_k(UTILTYPE *aSamples, UTILTYPE *magnitude, UTILTYPE *phase, uint16_t k, uint16_t N) {
 	unsigned i;
 	UTILTYPE real = UTIL_ZERO, imag = UTIL_ZERO;
 
@@ -231,7 +231,7 @@ void dft_both_k(UTILTYPE *aSamples, UTILTYPE *magnitude, UTILTYPE *phase, unsign
 		*phase = UTIL_ZERO;
 		*magnitude = real/(UTILTYPE)N;
 	} else {
-		*magnitude = sqrtf(real*real + imag*imag)*2/N;
+		*magnitude = util_sqrt(real*real + imag*imag)*2/N;
 		*phase = atanf(imag/real)*UTIL_180OVERPI;
 		if(real < UTIL_ZERO) {
 			*phase = (imag > UTIL_ZERO) ? *phase + M_PI : *phase - M_PI;
@@ -248,7 +248,7 @@ void dft_both_k(UTILTYPE *aSamples, UTILTYPE *magnitude, UTILTYPE *phase, unsign
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-UTILTYPE dft_mag_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
+UTILTYPE dft_mag_k(UTILTYPE *aSamples, uint16_t k, uint16_t N) {
 	unsigned i;
 	UTILTYPE real = UTIL_ZERO, imag = UTIL_ZERO;
 
@@ -271,9 +271,9 @@ UTILTYPE dft_mag_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 	}
 #endif
 	if(k == 0) {
-		return sqrtf(real*real + imag*imag)/(UTILTYPE)N;
+		return util_sqrt(real*real + imag*imag)/(UTILTYPE)N;
 	} else {
-		return sqrtf(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
+		return util_sqrt(real*real + imag*imag)*UTIL_TWO/(UTILTYPE)N;
 	}
 }
 
@@ -287,7 +287,7 @@ UTILTYPE dft_mag_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-UTILTYPE dft_phase_k(UTILTYPE *aSamples, unsigned k, unsigned N) {
+UTILTYPE dft_phase_k(UTILTYPE *aSamples, uint16_t k, uint16_t N) {
 	unsigned i;
 	UTILTYPE ph, real = UTIL_ZERO, imag = UTIL_ZERO;
 	if(k == 0)

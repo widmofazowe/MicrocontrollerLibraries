@@ -47,6 +47,6 @@ NOISETYPE noise_white(NOISETYPE mean, NOISETYPE variance) {
 	/* adjust X so mu = 0 and var = 1 */
 
 	x -= (NOISETYPE)N/UTIL_TWO;      /* set mean to 0 */
-	x *= sqrtf(12/(NOISETYPE)N);     /* adjust variance to 1 */
-	return mean + sqrtf(variance)*x;
+	x *= util_sqrt(12/(NOISETYPE)N);     /* adjust variance to 1 */
+	return mean + util_sqrt(variance)*x;
 }

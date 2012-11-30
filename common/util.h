@@ -13,6 +13,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "types.h"
+
 /* Exported constants --------------------------------------------------------*/
 #define UTIL_FLOAT_MODE  (0)
 #define UTIL_DOUBLE_MODE  (1)
@@ -89,20 +90,21 @@
 /* Exported variables --------------------------------------------------------*/
 extern volatile UTILTYPE *util_cos;
 /* Exported functions ------------------------------------------------------- */
-UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
-UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
-UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop);
-UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned point);
-UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point);
-unsigned int util_factorial(unsigned x);
+UTILTYPE util_trapezoid_integral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop);
+UTILTYPE util_rect_integral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop);
+UTILTYPE util_parabol_integral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop);
+UTILTYPE util_difference1(UTILTYPE *samples, UTILTYPE h, uint16_t point);
+UTILTYPE util_difference2(UTILTYPE *samples, UTILTYPE h, uint16_t point);
+uint16_t util_factorial(uint16_t x);
 UTILTYPE util_abs(UTILTYPE x);
-int util_abs_i(int x);
+int16_t util_abs_i(int16_t x);
 float util_abs_f(float x);
 double util_abs_d(double x);
-unsigned util_fpow(unsigned x, unsigned n);
-UTILTYPE util_pow(UTILTYPE x, int n);
-UTILTYPE util_root(UTILTYPE x, int n);
+uint16_t util_fpow(uint16_t x, uint16_t n);
+UTILTYPE util_pow(UTILTYPE x, int16_t n);
+UTILTYPE util_root(UTILTYPE x, int16_t n);
 UTILTYPE util_sqrt(UTILTYPE x);
-void util_initcos();
-void util_free();
+void util_initcos(uint16_t N);
+void util_free(void);
+uint16_t util_mod(int16_t x, uint16_t n);
 #endif /* _H_UTIL */

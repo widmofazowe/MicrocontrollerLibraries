@@ -6,7 +6,7 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "queue.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -21,7 +21,7 @@
 * Output         : None.
 * Return         : A pointer to a created queue.
 *******************************************************************************/
-QUEUE* queue_create(unsigned n) {
+QUEUE* queue_create(uint16_t n) {
 	QUEUE* q;
 	q = (QUEUE*) malloc(sizeof(QUEUE));
 	q->size = n;
@@ -83,7 +83,7 @@ void queue_destroy(QUEUE* q) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void queue_resize(QUEUE* q, unsigned n) {
+void queue_resize(QUEUE* q, uint16_t n) {
 	q->size = n;
 	q->address = (QUEUETYPE*) realloc(q->address, n*sizeof(QUEUETYPE));
 }

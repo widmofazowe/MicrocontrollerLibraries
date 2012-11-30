@@ -10,15 +10,16 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "../common/util.h"
+#include <stdint.h>
 /* Exported types ------------------------------------------------------------*/
 typedef UTILTYPE FIRTYPE;
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void fir_init(FIRTYPE *coeff, unsigned n);
-void fir_free();
-void fit_clear_input();
+void fir_init(FIRTYPE *coeff, uint16_t n);
+void fir_free(void);
+void fit_clear_input(void);
 FIRTYPE fir(FIRTYPE sample);
 
 #endif /* FIR_H_ */

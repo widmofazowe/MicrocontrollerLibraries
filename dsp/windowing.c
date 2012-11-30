@@ -7,7 +7,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "windowing.h"
 #include <math.h>
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -20,13 +20,13 @@ volatile UTILTYPE *window;
 /*******************************************************************************
 * Function Name  : windowing_init
 * Description    : Calculate whole window parameters.
-* Input          : f: a pointer to the window function,
+* Input          : f: a point16_ter to the window function,
 * 				   N: number of samples.
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void windowing_init(UTILTYPE (*f)(int, int), unsigned N) {
-	unsigned i;
+void windowing_init(UTILTYPE (*f)(int16_t, int16_t), uint16_t N) {
+	uint16_t i;
 	window = (UTILTYPE*) malloc(N*sizeof(UTILTYPE*));
 	for(i = 0; i < N; ++i) {
 		*(window+i) = f(i, N);
@@ -52,7 +52,7 @@ void windowing_free() {
 * Output         : None.
 * Return         : Scale factor of rectangular window.
 *******************************************************************************/
-UTILTYPE rectangular(int n, unsigned N) {
+UTILTYPE rectangular(int16_t n, uint16_t N) {
 	return 1;
 }
 
@@ -64,7 +64,7 @@ UTILTYPE rectangular(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of hanning window.
 *******************************************************************************/
-UTILTYPE hanning(int n, unsigned N) {
+UTILTYPE hanning(int16_t n, uint16_t N) {
 #if WINDOWING_USEPRECALCULATION == 1
 	return UTIL_HALF*(UTIL_ONE - *(util_cos+n));
 #else
@@ -80,7 +80,7 @@ UTILTYPE hanning(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of hamming window.
 *******************************************************************************/
-UTILTYPE hamming(int n, unsigned N) {
+UTILTYPE hamming(int16_t n, uint16_t N) {
 #if WINDOWING_USEPRECALCULATION == 1
 	return (WINDOWING_HAMMING + (UTIL_ONE-WINDOWING_HAMMING)*(*(util_cos+n)));
 #else
@@ -96,7 +96,7 @@ UTILTYPE hamming(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of blackman window.
 *******************************************************************************/
-UTILTYPE blackman(int n, unsigned N) {
+UTILTYPE blackman(int16_t n, uint16_t N) {
 #if WINDOWING_USEPRECALCULATION == 1
 	return WINDOWING_BLACKMAN_A0+WINDOWING_BLACKMAN_A1*(*(util_cos+n))+WINDOWING_BLACKMAN_A2*(*(util_cos+(2*n%N)));
 #else
@@ -112,7 +112,7 @@ UTILTYPE blackman(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of triangular window.
 *******************************************************************************/
-UTILTYPE triangular(int n, unsigned N) {
+UTILTYPE triangular(int16_t n, uint16_t N) {
 	return UTIL_ONE-util_abs((UTILTYPE)n-(N/2))/(UTILTYPE)(N/2);
 }
 
@@ -124,7 +124,7 @@ UTILTYPE triangular(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of cosine window.
 *******************************************************************************/
-UTILTYPE cosine(int n, unsigned N) {
+UTILTYPE cosine(int16_t n, uint16_t N) {
 	return util_pow(cosf(M_PI*(UTILTYPE)n/((UTILTYPE)N)), WINDOWING_COSINE);
 }
 
@@ -136,7 +136,7 @@ UTILTYPE cosine(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of sine window.
 *******************************************************************************/
-UTILTYPE sine(int n, unsigned N) {
+UTILTYPE sine(int16_t n, uint16_t N) {
 	return cosine(n, N);
 }
 
@@ -148,7 +148,7 @@ UTILTYPE sine(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of lanczos window.
 *******************************************************************************/
-UTILTYPE lanczos(int n, unsigned N) {
+UTILTYPE lanczos(int16_t n, uint16_t N) {
 	UTILTYPE x = M_TWOPI*(UTILTYPE)n/(UTILTYPE)N-UTIL_ONE;
 	return sinf(x)/x;
 }
@@ -161,7 +161,7 @@ UTILTYPE lanczos(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of gaussian window.
 *******************************************************************************/
-UTILTYPE gaussian(int n, unsigned N) {
+UTILTYPE gaussian(int16_t n, uint16_t N) {
 	UTILTYPE x = WINDOWING_GAUSSIAN*(UTILTYPE)n/(UTILTYPE)(N/2);
 	return expf(-UTIL_HALF*x*x);
 }
@@ -174,7 +174,7 @@ UTILTYPE gaussian(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of cauchy window.
 *******************************************************************************/
-UTILTYPE cauchy(int n, unsigned N) {
+UTILTYPE cauchy(int16_t n, uint16_t N) {
 	UTILTYPE x = WINDOWING_CAUCHY*util_abs((UTILTYPE)(n-(N/2)))/(UTILTYPE)(N/2);
 	return UTIL_ONE/(UTIL_ONE+x*x);
 }
@@ -187,7 +187,7 @@ UTILTYPE cauchy(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of poison window.
 *******************************************************************************/
-UTILTYPE poisson(int n, unsigned N) {
+UTILTYPE poisson(int16_t n, uint16_t N) {
 	return expf(-WINDOWING_POISSON*util_abs((UTILTYPE)(n-N/2))/(N/2));
 }
 
@@ -199,7 +199,7 @@ UTILTYPE poisson(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of hann_poison window.
 *******************************************************************************/
-UTILTYPE hann_poisson(int n, unsigned N) {
+UTILTYPE hann_poisson(int16_t n, uint16_t N) {
 	return UTIL_HALF*(UTIL_ONE+cosf(M_PI*(UTILTYPE)n/(UTILTYPE)(N/2)))*expf(-WINDOWING_HANNPOISSON*util_abs((UTILTYPE)(n-N/2))/(N/2));
 }
 
@@ -211,7 +211,7 @@ UTILTYPE hann_poisson(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of bohman window.
 *******************************************************************************/
-UTILTYPE bohman(int n, unsigned N) {
+UTILTYPE bohman(int16_t n, uint16_t N) {
 	UTILTYPE x = util_abs((UTILTYPE)(n-(N/2)))/(UTILTYPE)(N/2);
 	return (UTIL_ONE-x)*cosf(M_PI*x)+M_1_PI*sinf(M_PI*x);
 }
@@ -224,9 +224,9 @@ UTILTYPE bohman(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of riemann window.
 *******************************************************************************/
-UTILTYPE riemann(int n, unsigned N) {
+UTILTYPE riemann(int16_t n, uint16_t N) {
 #if WINDOWING_USEPRECALCULATION == 1
-	int x = util_abs_d(n-(N/2));
+	int16_t x = util_abs_d(n-(N/2));
 	if(n == N/2)
 		return UTIL_ONE;
 	else
@@ -248,7 +248,7 @@ UTILTYPE riemann(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of parabolic window.
 *******************************************************************************/
-UTILTYPE parabolic(int n, unsigned N) {
+UTILTYPE parabolic(int16_t n, uint16_t N) {
 	UTILTYPE x = util_abs((UTILTYPE)(n-(N/2)))/(UTILTYPE)(N/2);
 	return UTIL_ONE-x*x;
 }
@@ -261,7 +261,7 @@ UTILTYPE parabolic(int n, unsigned N) {
 * Output         : None.
 * Return         : Scale factor of kaiser_bessel window.
 *******************************************************************************/
-UTILTYPE kaiser_bessel(int n, unsigned N) {
+UTILTYPE kaiser_bessel(int16_t n, uint16_t N) {
 	//TODO
 	return 1;
 }

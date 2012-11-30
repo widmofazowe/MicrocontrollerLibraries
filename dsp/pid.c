@@ -10,7 +10,6 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -19,7 +18,7 @@
 * Description    : Computes output value of PID controller.
 * Input          : x: desired value,
 * 				   y: actual value,
-* 				   controller: pid controller settings.
+* 				   controller: a pointer to the pid controller settings.
 * Output         : None.
 * Return         : Output of a controller.
 *******************************************************************************/

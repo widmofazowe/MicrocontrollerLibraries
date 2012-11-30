@@ -6,7 +6,7 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "pqueue.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -22,7 +22,7 @@
 * Output         : None.
 * Return         : A pointer to a created priority queue.
 *******************************************************************************/
-PQUEUE* pqueue_create(unsigned n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE)) {
+PQUEUE* pqueue_create(uint16_t n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE)) {
 	PQUEUE* q;
 	q = (PQUEUE*) malloc(sizeof(PQUEUE));
 	q->size = n;
@@ -42,8 +42,8 @@ PQUEUE* pqueue_create(unsigned n, BOOL(*f)(PQUEUETYPE, PQUEUETYPE)) {
 *******************************************************************************/
 void penqueue(PQUEUE* q, PQUEUETYPE x) {
 	if(pqueue_num(q) < q->size) { //check if buffer is full
-		int wr = (int)q->write-1;
-		int rd = (int)q->read-1;
+		int16_t wr = (int16_t)q->write-1;
+		int16_t rd = (int16_t)q->read-1;
 		if(rd < 0)
 			rd += q->size;
 		if(q->write >= q->size) {
@@ -96,7 +96,7 @@ void pqueue_destroy(PQUEUE* q) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void pqueue_resize(PQUEUE* q, unsigned n) {
+void pqueue_resize(PQUEUE* q, uint16_t n) {
 	q->size = n;
 	q->address = (PQUEUETYPE*) realloc(q->address, n*sizeof(PQUEUETYPE));
 }
@@ -136,7 +136,7 @@ BOOL pqueue_empty(PQUEUE* q) {
 * Return         : Return 1 when the element a is less then element b.
 * 				   0 - otherwise.
 *******************************************************************************/
-__inline BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b) {
+BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b) {
 	return (a < b);
 }
 
@@ -150,6 +150,6 @@ __inline BOOL pqueue_asc(PQUEUETYPE a, PQUEUETYPE b) {
 * Return         : Return 1 when the element a is greater then element b.
 * 				   0 - otherwise.
 *******************************************************************************/
-__inline BOOL pqueue_desc(PQUEUETYPE a, PQUEUETYPE b) {
+BOOL pqueue_desc(PQUEUETYPE a, PQUEUETYPE b) {
 	return (a > b);
 }

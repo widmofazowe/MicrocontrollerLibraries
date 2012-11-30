@@ -10,6 +10,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "../common/util.h"
+#include "../common/types.h"
 /* Exported types ------------------------------------------------------------*/
 typedef char MAPTYPE;
 typedef char MAPKEY;
@@ -32,12 +33,12 @@ typedef struct {
 //function which compares keys (for a string key it should be !strcmp(x, y)
 #define MAP_CMP(x, y) (x == y)
 /* Exported functions ------------------------------------------------------- */
-MAP* map_create(unsigned n);
+MAP* map_create(uint16_t n);
 void map_set(MAP* map, MAPKEY i, MAPTYPE x);
 void map_erase(MAP* map, MAPKEY key);
 MAPTYPE map_get(MAP* map, MAPKEY i);
 BOOL map_isset(MAP* map, MAPKEY i);
 void map_destroy(MAP* map);
-void map_resize(MAP* map, unsigned n);
+void map_resize(MAP* map, uint16_t n);
 
 #endif /* MAP_H_ */

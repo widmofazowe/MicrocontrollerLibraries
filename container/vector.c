@@ -6,7 +6,7 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "vector.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -21,7 +21,7 @@
 * Output         : None.
 * Return         : A pointer to a created vector.
 *******************************************************************************/
-VECTOR* vector_create(unsigned n) {
+VECTOR* vector_create(uint16_t n) {
 	VECTOR* vector;
 	vector = (VECTOR*) malloc(sizeof(VECTOR));
 	vector->size = n;
@@ -37,7 +37,7 @@ VECTOR* vector_create(unsigned n) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_set(VECTOR* vector, unsigned i, VECTORTYPE x) {
+void vector_set(VECTOR* vector, uint16_t i, VECTORTYPE x) {
 #if VECTOR_USEAUTORESIZING == 1
 	if(i >= vector->size) {
 		vector->size += VECTOR_STEP;
@@ -54,7 +54,7 @@ void vector_set(VECTOR* vector, unsigned i, VECTORTYPE x) {
 * Output         : None.
 * Return         : Element which is read.
 *******************************************************************************/
-VECTORTYPE vector_get(VECTOR* vector, unsigned i) {
+VECTORTYPE vector_get(VECTOR* vector, uint16_t i) {
 	return *(vector->address+i);
 }
 
@@ -78,7 +78,7 @@ void vector_destroy(VECTOR* vector) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void vector_resize(VECTOR* vector, unsigned n) {
+void vector_resize(VECTOR* vector, uint16_t n) {
 	vector->size = n;
 	vector->address = (VECTORTYPE*) realloc(vector->address, n*sizeof(VECTORTYPE));
 }
@@ -92,7 +92,7 @@ void vector_resize(VECTOR* vector, unsigned n) {
 * Return         : None.
 *******************************************************************************/
 void vector_fill(VECTOR* vector, VECTORTYPE x) {
-	unsigned i;
+	uint16_t i;
 	for(i = 0; i < vector->size; ++i)
 		*(vector->address+i) = x;
 }

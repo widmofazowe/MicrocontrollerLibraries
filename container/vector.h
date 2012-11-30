@@ -9,11 +9,11 @@
 #define VECTOR_H_
 
 /* Includes ------------------------------------------------------------------*/
-
+#include "../common/types.h"
 /* Exported types ------------------------------------------------------------*/
 typedef char VECTORTYPE;
 typedef struct {
-	unsigned size;
+	uint16_t size;
 	VECTORTYPE* address;
 } VECTOR;
 
@@ -24,10 +24,10 @@ typedef struct {
 #define VECTOR_STEP 16
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-VECTOR* vector_create(unsigned n);
-void vector_set(VECTOR* vector, unsigned i, VECTORTYPE x);
-VECTORTYPE vector_get(VECTOR* vector, unsigned i);
+VECTOR* vector_create(uint16_t n);
+void vector_set(VECTOR* vector, uint16_t i, VECTORTYPE x);
+VECTORTYPE vector_get(VECTOR* vector, uint16_t i);
 void vector_destroy(VECTOR* vector);
-void vector_resize(VECTOR* vector, unsigned n);
+void vector_resize(VECTOR* vector, uint16_t n);
 void vector_fill(VECTOR* vector, VECTORTYPE x);
 #endif /* VECTOR_H_ */

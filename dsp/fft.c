@@ -6,12 +6,12 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "fft.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-volatile unsigned *fft_index_table;
+volatile uint16_t *fft_index_table;
 volatile COMPLEX *fft_w;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -24,9 +24,9 @@ volatile COMPLEX *fft_w;
 * Output         : None.
 * Return         : Index of shuffled sample.
 *******************************************************************************/
-int _fft_sample_index(int n, int N){
-	int number = 0 ;
-    int i = 0;
+uint16_t _fft_sample_index(uint16_t n, uint16_t N){
+	uint16_t number = 0 ;
+	uint16_t i = 0;
 	for(i = N/2; i > 1; i /= 2) {
 		number += (n&1) * i;
 		n /= 2;
@@ -41,9 +41,9 @@ int _fft_sample_index(int n, int N){
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void fft_init(unsigned N) {
-    unsigned i;
-    fft_index_table = (unsigned*) malloc(N*sizeof(unsigned));
+void fft_init(uint16_t N) {
+	uint16_t i;
+    fft_index_table = (uint16_t*) malloc(N*sizeof(uint16_t));
     fft_w = (COMPLEX*) malloc(N*sizeof(COMPLEX));
     for(i = 0; i < N; ++i) {
         *(fft_index_table+i) = _fft_sample_index(i, N);
@@ -78,11 +78,11 @@ void fft_free() {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void fft(UTILTYPE *samples, COMPLEX *spectrum, int N) {
-	int i = 0, halfstep, k;
-	int step = 0;
+void fft(UTILTYPE *samples, COMPLEX *spectrum, uint16_t N) {
+	uint16_t i = 0, halfstep, k;
+	uint16_t step = 0;
 	COMPLEX a, b;
-    int ai, bi;
+	uint16_t ai, bi;
 
 	for(i = 0; i < N; i += 2) {
 #if FFT_USEPRECALCULATION == 1

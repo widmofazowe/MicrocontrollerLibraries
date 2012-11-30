@@ -13,20 +13,20 @@
 /* Exported types ------------------------------------------------------------*/
 typedef char QUEUETYPE;
 typedef struct {
-	unsigned size;
-	unsigned read;
-	unsigned write;
+	uint16_t size;
+	uint16_t read;
+	uint16_t write;
 	QUEUETYPE* address;
 } QUEUE;
 
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-QUEUE* queue_create(unsigned n);
+QUEUE* queue_create(uint16_t n);
 void enqueue(QUEUE* q, QUEUETYPE x);
 QUEUETYPE dequeue(QUEUE* q);
 void queue_destroy(QUEUE* q);
-void queue_resize(QUEUE* q, unsigned n);
+void queue_resize(QUEUE* q, uint16_t n);
 unsigned queue_num(QUEUE* q);
 BOOL queue_empty(QUEUE* q);
 #endif /* QUEUE_H_ */

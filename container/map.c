@@ -6,7 +6,7 @@
  */
 /* Includes ------------------------------------------------------------------*/
 #include "map.h"
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -54,7 +54,7 @@ unsigned _map_firstempty(MAP* map) {
 * Output         : None.
 * Return         : A pointer to a created map.
 *******************************************************************************/
-MAP* map_create(unsigned n) {
+MAP* map_create(uint16_t n) {
 	MAP* map;
 	map = (MAP*) malloc(sizeof(MAP));
 	map->size = n;
@@ -71,7 +71,7 @@ MAP* map_create(unsigned n) {
 * Return         : None.
 *******************************************************************************/
 void map_set(MAP* map, MAPKEY key, MAPTYPE x) {
-	unsigned i;
+	uint16_t i;
 
 	if((i=_map_index(map, key)) != map->size) {
 		(map->elements+i)->value = x;
@@ -100,7 +100,7 @@ void map_set(MAP* map, MAPKEY key, MAPTYPE x) {
 * Return         : None.
 *******************************************************************************/
 void map_erase(MAP* map, MAPKEY key) {
-	unsigned i;
+	uint16_t i;
 	if((i=_map_index(map, key)) != map->size) {
 			(map->elements+i)->active = FALSE;
 	}
@@ -149,7 +149,7 @@ void map_destroy(MAP* map) {
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void map_resize(MAP* map, unsigned n) {
+void map_resize(MAP* map, uint16_t n) {
 	map->size = n;
 	map->elements = (MAP_ELEMENT*) realloc(map->elements, n*sizeof(MAPTYPE));
 }

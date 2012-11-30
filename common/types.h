@@ -9,7 +9,7 @@
 #define TYPES_H_
 
 /* Includes ------------------------------------------------------------------*/
-
+#include <stdint.h>
 /* Exported types ------------------------------------------------------------*/
 typedef enum {FALSE = 0, TRUE = 1} BOOL;
 #define NULL ((void*) 0)

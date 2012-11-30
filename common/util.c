@@ -7,7 +7,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "util.h"
 #include <math.h>
-#include <malloc.h>
+#include <stdlib.h>
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -19,91 +19,91 @@ volatile UTILTYPE *util_cos;
 /* Private functions ---------------------------------------------------------*/
 
 /*******************************************************************************
-* Function Name  : util_trapezoid_integral
-* Description    : Compute integral using trapezoid approximation.
+* Function Name  : util_trapezoid_int16_tegral
+* Description    : Compute int16_tegral using trapezoid approximation.
 * Input          : samples: a table with samples of function which is being
-*                           integrated,
+*                           int16_tegrated,
 * 				   h: spacing between samples,
-* 				   start: number of sample where start the integration,
-* 				   stop: number of sample where stop the integration.
+* 				   start: number of sample where start the int16_tegration,
+* 				   stop: number of sample where stop the int16_tegration.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
-UTILTYPE util_trapezoid_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop) {
+UTILTYPE util_trapezoid_int16_tegral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop) {
 	UTILTYPE ans = UTIL_ZERO;
-	unsigned int i;
+	uint16_t i;
 	for(i = start; i < stop-1; ++i) {
-		ans += samples[i] + UTIL_HALF*(samples[i+1]-samples[i]);
+		ans += *(samples+i) + UTIL_HALF*(*(samples+i+1)-*(samples+i));
 	}
 	return ans*h;
 }
 
 /*******************************************************************************
-* Function Name  : util_rect_integral
-* Description    : Compute integral using rectangular approximation.
+* Function Name  : util_rect_int16_tegral
+* Description    : Compute int16_tegral using rectangular approximation.
 * Input          : samples: a table with samples of function which is being
-*                           integrated,
+*                           int16_tegrated,
 * 				   h: spacing between samples,
 * 				   N: number of samples.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
-UTILTYPE util_rect_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop) {
+UTILTYPE util_rect_int16_tegral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop) {
 	UTILTYPE ans = UTIL_ZERO;
-	unsigned int i;
+	uint16_t i;
 	for(i = start; i < stop-1; ++i) {
-		ans += (samples[i]+samples[i+1]);
+		ans += ((*(samples+i))+(*(samples+i+1)));
 	}
 	return ans*h*UTIL_HALF;
 }
 
 /*******************************************************************************
-* Function Name  : util_parabol_integral
-* Description    : Compute integral using rectangular approximation.
+* Function Name  : util_parabol_int16_tegral
+* Description    : Compute int16_tegral using rectangular approximation.
 * Input          : samples: a table with samples of function which is being
-*                           integrated,
+*                           int16_tegrated,
 * 				   h: spacing between samples,
 * 				   N: number of samples.
 * Output         : None.
 * Return         : Integral of given samples.
 *******************************************************************************/
-UTILTYPE util_parabol_integral(UTILTYPE samples[], UTILTYPE h, unsigned start, unsigned stop) {
+UTILTYPE util_parabol_int16_tegral(UTILTYPE *samples, UTILTYPE h, uint16_t start, uint16_t stop) {
 	UTILTYPE ans = UTIL_ZERO;
-	unsigned int i;
+	uint16_t i;
 	for(i = start; i < stop-1; ++i) {
-		ans += (samples[i]+4*samples[i+1]+samples[i+2]);
+		ans += ((*(samples+i))+4*(*(samples+i+1))+(*(samples+i+2)));
 	}
 	return ans*h/UTIL_THREE;
 }
 
 /*******************************************************************************
 * Function Name  : util_difference1
-* Description    : Compute difference at given point with using (f(x+h)-f1(x))/h.
+* Description    : Compute difference at given point16_t with using (f(x+h)-f1(x))/h.
 * Input          : samples: a table with samples of function where difference
 *                           is being calculated,
 * 				   h: spacing between samples,
-* 				   point: number of sample where difference is being calculated,
+* 				   point16_t: number of sample where difference is being calculated,
 * 				   N: number of samples.
 * Output         : None.
-* Return         : Difference of samples at desired point.
+* Return         : Difference of samples at desired point16_t.
 *******************************************************************************/
-UTILTYPE util_difference1(UTILTYPE samples[], UTILTYPE h, unsigned point) {
-	return (samples[point+1]-samples[point])/h;
+UTILTYPE util_difference1(UTILTYPE *samples, UTILTYPE h, uint16_t point16_t) {
+	return ((*(samples+point16_t+1))-(*(samples+point16_t)))/h;
 }
 
 /*******************************************************************************
 * Function Name  : util_difference2
-* Description    : Compute difference at given point using (f(x+h)-f(x-h))/(2*h).
+* Description    : Compute difference at given point16_t using (f(x+h)-f(x-h))/(2*h).
 * Input          : samples: a table with samples of function where difference is
 *                           being calculated,
 * 				   h: spacing between samples,
-* 				   point: number of sample where difference is being calculated,
+* 				   point16_t: number of sample where difference is being calculated,
 * 				   N: number of samples.
 * Output         : None.
-* Return         : Difference of samples at desired point.
+* Return         : Difference of samples at desired point16_t.
 *******************************************************************************/
-UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point) {
-	return (samples[point+1]-samples[point-1])/(2*h);
+UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, uint16_t point16_t) {
+	return ((*(samples+point16_t+1))-(*(samples+point16_t-1)))/(2*h);
 }
 
 /*******************************************************************************
@@ -113,8 +113,8 @@ UTILTYPE util_difference2(UTILTYPE samples[], UTILTYPE h, unsigned point) {
 * Output         : None.
 * Return         : Factorial of a given number.
 *******************************************************************************/
-unsigned int util_factorial(unsigned x) {
-	unsigned i,w = 1;
+uint16_t util_factorial(uint16_t x) {
+	uint16_t i,w = 1;
 	if(x == 0 || x == 1)
 		return 1;
 
@@ -138,12 +138,12 @@ UTILTYPE util_abs(UTILTYPE x) {
 
 /*******************************************************************************
 * Function Name  : util_abs_i
-* Description    : Compute absolute of an integer number.
-* Input          : x: integer number.
+* Description    : Compute absolute of an int16_teger number.
+* Input          : x: int16_teger number.
 * Output         : None.
-* Return         : Absolute of an integer number.
+* Return         : Absolute of an int16_teger number.
 *******************************************************************************/
-int util_abs_i(int x) {
+int16_t util_abs_i(int16_t x) {
 	if(x < 0)
 		x = -x;
 	return x;
@@ -183,8 +183,8 @@ double util_abs_d(double x) {
 * Output         : None.
 * Return         : x to the power of n.
 *******************************************************************************/
-unsigned util_fpow(unsigned x, unsigned n) {
-	unsigned ans = 1;
+uint16_t util_fpow(uint16_t x, uint16_t n) {
+	uint16_t ans = 1;
 	while(n > 0) {
 		if(n & 1) {
 			ans *= x;
@@ -203,7 +203,7 @@ unsigned util_fpow(unsigned x, unsigned n) {
 * Output         : None.
 * Return         : x to the power of n.
 *******************************************************************************/
-UTILTYPE util_pow(UTILTYPE x, int n) {
+UTILTYPE util_pow(UTILTYPE x, int16_t n) {
 	UTILTYPE ans = 1;
 	if (n == 0) {
 		return 1;
@@ -228,11 +228,11 @@ UTILTYPE util_pow(UTILTYPE x, int n) {
 * Output         : None.
 * Return         : n-th degree root of x.
 *******************************************************************************/
-UTILTYPE util_root(UTILTYPE x, int n) {
+UTILTYPE util_root(UTILTYPE x, int16_t n) {
 	UTILTYPE result = x;
 	UTILTYPE tmp;
 	UTILTYPE e = M_PI;
-	int nt;
+	int16_t nt;
 	tmp = 1;
 	nt = n - 1;
 	while(nt-- > 0) {
@@ -274,12 +274,12 @@ UTILTYPE util_sqrt(UTILTYPE x) {
 /*******************************************************************************
 * Function Name  : util_initcos
 * Description    : Initialize cos table.
-* Input          : N: number of derived points (spacing - 2pi/N).
+* Input          : N: number of derived point16_ts (spacing - 2pi/N).
 * Output         : None.
 * Return         : None.
 *******************************************************************************/
-void util_initcos(unsigned N) {
-	unsigned i;
+void util_initcos(uint16_t N) {
+	uint16_t i;
 	util_cos = (UTILTYPE*) malloc(N*sizeof(UTILTYPE));
     for(i = 0; i < N; ++i) {
     	util_cos[i] = (UTILTYPE) cosf(M_TWOPI*(UTILTYPE)(i)/(UTILTYPE)N);
@@ -305,7 +305,7 @@ void util_free() {
 * Output         : None.
 * Return         : Rest from dividing x over n.
 *******************************************************************************/
-unsigned util_mod(int x, unsigned n) {
+uint16_t util_mod(int16_t x, uint16_t n) {
 	x %= n;
 	return (x < 0) ? x+n : x;
 }

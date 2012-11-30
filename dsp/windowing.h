@@ -10,6 +10,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "../common/util.h"
+#include <stdint.h>
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #define WINDOWING_USEPRECALCULATION 1
@@ -44,23 +45,23 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void windowing_init(UTILTYPE (*f)(int, int), unsigned N);
-void windowing_free();
-UTILTYPE rectangular(int n, unsigned N);
-UTILTYPE hanning(int n, unsigned N);
-UTILTYPE hamming(int n, unsigned N);
-UTILTYPE blackman(int n, unsigned N);
-UTILTYPE triangular(int n, unsigned N);
-UTILTYPE cosine(int n, unsigned N);
-UTILTYPE sine(int n, unsigned N);
-UTILTYPE lanczos(int n, unsigned N);
-UTILTYPE gaussian(int n, unsigned N);
-UTILTYPE cauchy(int n, unsigned N);
-UTILTYPE poisson(int n, unsigned N);
-UTILTYPE hann_poisson(int n, unsigned N);
-UTILTYPE bohman(int n, unsigned N);
-UTILTYPE riemann(int n, unsigned N);
-UTILTYPE parabolic(int n, unsigned N);
-//UTILTYPE kaiser_bessel(int n, unsigned N);
+void windowing_init(UTILTYPE (*f)(int16_t, int16_t), uint16_t N);
+void windowing_free(void);
+UTILTYPE rectangular(int16_t n, uint16_t N);
+UTILTYPE hanning(int16_t n, uint16_t N);
+UTILTYPE hamming(int16_t n, uint16_t N);
+UTILTYPE blackman(int16_t n, uint16_t N);
+UTILTYPE triangular(int16_t n, uint16_t N);
+UTILTYPE cosine(int16_t n, uint16_t N);
+UTILTYPE sine(int16_t n, uint16_t N);
+UTILTYPE lanczos(int16_t n, uint16_t N);
+UTILTYPE gaussian(int16_t n, uint16_t N);
+UTILTYPE cauchy(int16_t n, uint16_t N);
+UTILTYPE poisson(int16_t n, uint16_t N);
+UTILTYPE hann_poisson(int16_t n, uint16_t N);
+UTILTYPE bohman(int16_t n, uint16_t N);
+UTILTYPE riemann(int16_t n, uint16_t N);
+UTILTYPE parabolic(int16_t n, uint16_t N);
+//UTILTYPE kaiser_bessel(int n, uint16_t N);
 
 #endif /* WINDOWING_H_ */
